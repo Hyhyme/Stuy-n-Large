@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, inital-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/foundation.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/app.css') }}">
+    <script src="{{ url_for('static', filename='js/vendor/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/foundation.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block scripts %}
+    {% endblock %}
+    <title>
+      {% block title %}
+      {% endblock %}
+    </title>
+  </head>
+  <body>
+
+    <!-- NAVBAR -->
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="menu">
+          <li class="menu-text">Stuy n' Buy</li>
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+        </ul>
+      </div>
+
+      <div class="top-bar-right">
+        <ul class="menu">
+          {% if search_page %}
+          <form name="search" action="{{ url_for('results') }}" method="GET">
+            <div class="input-group">
+              <li><input type="search" class="input-group-field" name="search" placeholder="Find a college..."></li>
+              <div class="input-group-button">
+                <li><input type="submit" value="Search" class="button"></li>
+              </div>
+            </div>
+          </form>
+          {% endif %}
+        </ul>
+      </div>
+
+      <div class="top-bar-right">
+        <ul class="menu">
+
+        </ul>
+      </div>
+
+    </div>
+
+    <section class="flash">
+      <div class="grid-container">
+        {% for message in get_flashed_messages() %}
+        <div class="callout primary" data-closable>
+          <button class="close-button" aria-label="Close alert" type="button" data-close>
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <p>{{ message }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="main">
+      <div class="grid-container">
+        <!-- CONTENT -->
+        {% block content %}
+
+        {% endblock %}
+      </div>
+      {% block modals %}
+
+      {% endblock %}
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div>
+        <ul class="menu align-center">
+          <li class="menu-text">&copy;2018 Stuy n' Large</li>
+        </ul>
+      </div>
+    </footer>
+
+  </body>
+</html>
