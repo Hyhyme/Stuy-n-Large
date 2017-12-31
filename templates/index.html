@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+Stuy n' Buy
+{% endblock %}
+
+{% block content %}
+
+<div class="hero-section">
+  <div class="layer">
+    <div class="hero-section-text">
+      <h1>Stuy n' Buy</h1>
+      <h5>The place to get all your Stuy needs!</h5>
+      <a href="{{ url_for('create') }}" class="button">Get Started</a>
+      <a href="#about" class="button">Learn More</a>
+    </div>
+  </div>
+</div>
+<br>
+<div class="grid-container" id="about">
+  <div class="grid-x grid-padding-x">
+    <div class="large-12 cell">
+      <h2>About Us</h2>
+    </div>
+    <div class="large-12 cell">
+      <div class="callout">
+        <p>Test</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

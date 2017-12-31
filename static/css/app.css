@@ -1,18 +1,6 @@
-/*
-.top-bar, .top-bar ul {
-    background-color: #d7e4f7;
-}
-*/
-
 .top-bar .input-group {
     margin-bottom: 0;
 }
-
-/*
-.top-bar .menu-text {
-
-}
-*/
 
 footer {
     background-color: #939393;
@@ -25,39 +13,35 @@ footer {
     margin-bottom: 2rem;
 }
 
-.responsive-embed iframe {
-    height: auto;
-    min-height: 20em;
+.hero-section {
+    background: url("../img/books.jpg") 50% no-repeat;
+    background-size: cover;
+    height: 80vh;
 }
 
-.responsive-embed {
-    padding-bottom: 20em;
-    margin-bottom: 0em;
+.hero-section .hero-section-text {
+    color: #fefefe;
+    text-shadow: 1px 1px 2px #0a0a0a;
 }
 
-.jumbotron {
-    position: absolute;
-    left: 50%;
-    top: 45%;
-
-    transform: translate(-50%, -55%);
-    -webkit-transform: translate(-50%, -55%);
-    -o-transform: translate(-50%, -55%);
-    -ms-transform: translate(-50%, -55%);
+.hero-section .hero-section-text a {
+    margin-top: 1em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
 }
 
-.jumbotron .callout {
-    border-radius: 2em;
-}
-
-.button-no-margin {
-    margin: 0px;
-}
-
-.card img {
-    min-height: 200px;
-}
-
-#favorite-switch {
-    padding-top: 20%;
+.layer {
+    background-color: rgba(26, 35, 9, 0.7);
+    width: 100%;
+    height: inherit;
+    text-align: center;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
 }

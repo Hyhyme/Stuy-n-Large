@@ -29,22 +29,7 @@
 
       <div class="top-bar-right">
         <ul class="menu">
-          {% if search_page %}
-          <form name="search" action="{{ url_for('results') }}" method="GET">
-            <div class="input-group">
-              <li><input type="search" class="input-group-field" name="search" placeholder="Find a college..."></li>
-              <div class="input-group-button">
-                <li><input type="submit" value="Search" class="button"></li>
-              </div>
-            </div>
-          </form>
-          {% endif %}
-        </ul>
-      </div>
-
-      <div class="top-bar-right">
-        <ul class="menu">
-
+          <li><a href="{{ url_for('login') }}">Login</a></li>
         </ul>
       </div>
 
@@ -64,12 +49,10 @@
     </section>
 
     <section class="main">
-      <div class="grid-container">
-        <!-- CONTENT -->
-        {% block content %}
+      <!-- CONTENT -->
+      {% block content %}
 
-        {% endblock %}
-      </div>
+      {% endblock %}
       {% block modals %}
 
       {% endblock %}
