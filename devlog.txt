@@ -1,3 +1,9 @@
 siuR -- 2017-12-21 21:21:44
 Added logging file, began devlog
 
+siuR -- 2017-12-29 13:28:36
+Start base template
+
+siuR -- 2017-12-31 15:46:34
+Create index page
+
