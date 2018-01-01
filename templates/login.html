@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+Login
+{% endblock %}
+
+{% block content %}
+<div class="grid-container full-screen">
+  <div class="grid-x grid-padding-x full-screen">
+    <div class="large-3 cell"></div>
+    <div class="small-12 large-6 cell text-center vertical-center">
+      <div class="grid-x grid-padding-x">
+
+        <div class="large-12 cell">
+          <h2>Login</h2>
+          <hr>
+        </div>
+        <div class="large-12 cell">
+          <form method="POST" action="">
+            <div class="grid-x grid-padding-x text-center">
+
+              <div class="large-12 cell">
+                <label>Email
+                  <input type="text" name="email" placeholder="jdoe@stuy.edu">
+                </label>
+              </div>
+
+              <div class="large-12 cell">
+                <label>Password
+                  <input type="password" name="password">
+                </label>
+              </div>
+
+              <div class="large-12 cell">
+                <a href="{{ url_for('create') }}">Don't have an account?</a><hr>
+              </div>
+
+              <div class="large-12 cell">
+                <input class="button round" type="submit">
+              </div>
+
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="large-3 cell"></div>
+</div>
+</div>
+{% endblock %}

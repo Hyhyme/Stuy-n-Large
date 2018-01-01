@@ -1,5 +1,20 @@
-.top-bar .input-group {
-    margin-bottom: 0;
+.top-bar {
+    border-bottom: 10px solid #870202;
+}
+
+.top-bar, .top-bar ul {
+    font-family: Helvetica;
+    font-size: 14px;
+    padding: 0.2rem;
+    background-color: #f2f2f2;
+}
+
+.top-bar .menu a:link, .top-bar .menu a:visited {
+    color: #777;
+}
+
+.top-bar .menu a:hover, .top-bar .is-active a:active {
+    color: #444;
 }
 
 footer {
@@ -31,7 +46,7 @@ footer {
 }
 
 .layer {
-    background-color: rgba(26, 35, 9, 0.7);
+    background-color: rgba(43, 0, 0, 0.7);
     width: 100%;
     height: inherit;
     text-align: center;
@@ -44,4 +59,34 @@ footer {
     -webkit-justify-content: center;
     -ms-flex-pack: center;
     justify-content: center;
+}
+
+.vertical-center {
+    height: 100%;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.full-screen {
+    height: 90vh;
+}
+
+.horizontal-center {
+    padding-left: auto;
+    padding-right: auto;
+}
+
+.button.round {
+    border-radius: 0.5em;
+}
+
+.text-center a {
+    text-align: center;
 }
