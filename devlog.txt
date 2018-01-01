@@ -10,3 +10,6 @@ Create index page
 siuR -- 2017-12-31 19:58:58
 Add templates for create and login
 
+siuR -- 2017-12-31 20:14:31
+Add about section, change footer color
+

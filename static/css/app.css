@@ -18,10 +18,11 @@
 }
 
 footer {
-    background-color: #939393;
+    background-color: #404040;
     position: fixed;
     bottom: 0;
     width: 100%;
+    color: #f2f2f2;
 }
 
 .main .grid-container {
