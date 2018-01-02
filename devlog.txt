@@ -13,3 +13,6 @@ Add templates for create and login
 siuR -- 2017-12-31 20:14:31
 Add about section, change footer color
 
+siuR -- 2018-01-02 14:07:55
+Start logged in index page
+

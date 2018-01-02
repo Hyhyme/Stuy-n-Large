@@ -14,14 +14,15 @@ def close_db(db):
 
 def create_tables():
     db, c = open_db()
-    c.execute("create table Users(user_id integer PRIMARY KEY, password TEXT NOT NULL, admin BOOLEAN, name TEXT, email TEXT)")
-    c.execute("create table Items(item_id integer PRIMARY KEY, item_name TEXT NOT NULL, price REAL, description TEXT, status INTEGER, is_selling BOOLEAN, user_id integer)")
-    c.execute("create table Pictures(picture_id PRIMARY KEY, item_id integer, path TEXT)")
+    c.execute("CREATE TABLE Users(user_id integer PRIMARY KEY, password TEXT NOT NULL, admin BOOLEAN, name TEXT, email TEXT)")
+    c.execute("CREATE TABLE Items(item_id integer PRIMARY KEY, item_name TEXT NOT NULL, price REAL, description TEXT, status INTEGER, is_selling BOOLEAN, user_id integer)")
+    c.execute("CREATE TABLE Pictures(picture_id PRIMARY KEY, item_id integer, path TEXT)")
     close_db(db)
 
-def auth_user():
+# Username is email
+def auth_user(username, password):
     db, c = open_db()
-    command = "SELECT * FROM Users where username = '%s' AND password = '%s'" % (username, hashlib.md5(str(password)).hexdigest())
+    command = "SELECT * FROM Users WHERE username = '%s' AND password = '%s'" % (username, hashlib.md5(str(password)).hexdigest())
     user = ''
     for user in c.execute(command): # returns either 1 or 0 entries
         pass # sets user to the entry if it exists
@@ -29,8 +30,9 @@ def auth_user():
     if user: # checks if user is an empty string
         return True # 1 result
     return False    # no results
-    
-def add_user():
+
+# Returns the user id if successful, -1 otherwise
+def add_user(username, password):
     pass
     
 def add_item():
