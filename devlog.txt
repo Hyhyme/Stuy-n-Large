@@ -16,3 +16,5 @@ Add about section, change footer color
 siuR -- 2018-01-02 14:07:55
 Start logged in index page
 
+wongA -- 2018-01-02 14:41:21
+Added add_user method with helper methods 

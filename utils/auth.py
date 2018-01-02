@@ -4,16 +4,15 @@ import db
 def logged_in():
     return 'u_id' in session
 
-# Username is email
-def add_user(username, password):
-    u_id = db.add_user(username, password)
+def add_user(email, password):
+    u_id = db.add_user(email, password)
     if u_id != -1:
-        login(username, password)
+        login(email, password)
         return True
     return False
 
-def login(username, password):
-    if db.auth_user(username, password):
+def login(email, password):
+    if db.auth_user(email, password):
         session['u_id'] = u_id
         return True
     return False
