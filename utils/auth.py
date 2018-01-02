@@ -13,6 +13,6 @@ def add_user(email, password, name):
 
 def login(email, password):
     if db.auth_user(email, password):
-        session['u_id'] = u_id
+        session['u_id'] = db.get_user_id(email)
         return True
     return False

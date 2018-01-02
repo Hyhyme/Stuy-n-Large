@@ -1,7 +1,7 @@
 import sqlite3   # enable control of an sqlite database
 import hashlib   # allows for passwords and emails to be encrypted and decrypted
 
-f = "../data/database.db"
+f = "data/database.db"
 
 def open_db():
     db = sqlite3.connect(f) # open if f exists, otherwise create
@@ -56,7 +56,7 @@ def change_name(name):
 def add_user(email, password, name):
     db, c = open_db()
 
-    if get_user(email):
+    if get_user_id(email):
         return -1
 
     hashed_email = hashlib.md5(str(email)).hexdigest()
@@ -78,7 +78,7 @@ def change_item():
 def add_picture():
     pass
 
-def get_user(email):
+def get_user_id(email):
     pass
 
 #print add_user('bob1@stuy.edu', '123')
