@@ -34,7 +34,22 @@ def index():
 @app.route('/create', methods=['GET', 'POST'])
 def create():
     if request.method == 'POST':
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
+
+        if not password1 == password2:
+            flash('Passwords do not match.')
+            return redirect('create')
+        email = request.form.get('email')
+        name = request.form.get('fname'), request.form.get('lname')
+
+        if not auth.add_user(email, password1, name):
+            flash('Email already in use.')
+            return redirect('login')
+
+        flash('User created!')
         return redirect('index')
+
     return render_template('create.html')
 
 @app.route('/login')

@@ -53,15 +53,22 @@ def change_name(name):
     close_db(db)
 
 # Returns the user id if successful, -1 otherwise
-def add_user(email, password):
+def add_user(email, password, name):
     db, c = open_db()
+
+    if get_user(email):
+        return -1
+
     hashed_email = hashlib.md5(str(email)).hexdigest()
     hashed_password = hashlib.md5(str(password)).hexdigest()
+    u_id = increment_id()
     # admin status is false by default (stored in SQL as 0)
-    command = "INSERT INTO Users VALUES(%d, '%s', 0, '%s', '%s')" % (increment_id(), hashed_password, display_name(email), hashed_email)
+    command = "INSERT INTO Users VALUES(%d, '%s', 0, '%s', '%s')" % (u_id, hashed_password, name, hashed_email)
     c.execute(command)
     close_db(db)
-    
+
+    return u_id
+
 def add_item():
     pass
     
@@ -69,6 +76,9 @@ def change_item():
     pass
     
 def add_picture():
+    pass
+
+def get_user(email):
     pass
 
 #print add_user('bob1@stuy.edu', '123')

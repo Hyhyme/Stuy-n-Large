@@ -18,3 +18,6 @@ Start logged in index page
 
 wongA -- 2018-01-02 14:41:21
 Added add_user method with helper methods 
+siuR -- 2018-01-02 15:08:30
+Finish create view
+
