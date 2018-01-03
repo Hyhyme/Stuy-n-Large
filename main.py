@@ -18,6 +18,7 @@ app.jinja_env.filters['currency'] = format_currency
 @app.route('/')
 @app.route('/index')
 def index():
+    session['u_id'] = 'test'
     if logged_in():
         items = {
             0: {'name': 'banana', 'price': 2, 'description': 'Brand new!', 'status': 0, 'is_selling': True, 'user_id': 0},

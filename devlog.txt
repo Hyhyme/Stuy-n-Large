@@ -24,3 +24,6 @@ Finish create view
 siuR -- 2018-01-03 10:24:09
 Finish login and create capabilities
 
+siuR -- 2018-01-03 11:34:07
+Add prototype filter template
+

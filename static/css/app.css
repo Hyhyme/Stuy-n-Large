@@ -91,3 +91,25 @@ footer {
 .text-center a {
     text-align: center;
 }
+
+.accordion-menu a {
+    border-bottom: 3px solid #870202;
+    color: #000;
+}
+
+.accordion-menu #first {
+    border-bottom: 2px solid #000;
+}
+
+.accordion-menu #last {
+    border-bottom: none;
+}
+
+.accordion-menu .is-accordion-submenu-parent:not(.has-submenu-toggle) > a::after {
+    border-color: #000 transparent transparent;
+}
+
+#filters {
+    border: 2px solid #000;
+    background: #ddd;
+}
