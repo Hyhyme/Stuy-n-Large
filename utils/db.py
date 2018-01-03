@@ -26,15 +26,15 @@ def auth_user(email, password):
     for u in c.execute(command): # returns either 1 or 0 entries
         user = u # sets user to the entry if it exists
     close_db(db)
-    if user: # checks if user is an empty string
+    if user: # non-empty strings are considered true, None is considered to be false
         return True # 1 result
     return False    # no results
 
-# helper function for incrementing user id
+# helper function for incrementing id numbers
 # returns next id number to be used
-def increment_id():
+def increment_id(table):
     db, c = open_db()
-    command = "SELECT * FROM Users"
+    command = "SELECT * FROM %s" % (table)
     id = 0
     for user in c.execute(command):
         id+=1
@@ -45,11 +45,11 @@ def increment_id():
 def display_name(email):
     return email.split('@')[0]
 
-# unfinished - needs to check if user is logged in
 # allows user to change display name
-def change_name(name):
+def change_name(u_id, new_name):
     db, c = open_db()
-    pass
+    command = "UPDATE Users SET name = '%s' WHERE user_id = %d" % (new_name, u_id)
+    c.execute(command)
     close_db(db)
 
 # Returns the user id if successful, -1 otherwise
@@ -59,7 +59,7 @@ def add_user(email, password, name):
     if get_user_id(email):
         return -1
 
-    u_id = increment_id()
+    u_id = increment_id("Users")
     # admin status is false by default (stored in SQL as 0)
     command = "INSERT INTO Users VALUES(%d, '%s', 0, '%s', '%s')" % (u_id, hashed(password), name, hashed(email))
     c.execute(command)
@@ -67,21 +67,30 @@ def add_user(email, password, name):
 
     return u_id
 
-def add_item():
-    pass
+def add_item(item_id, item_name, price, description, status, user_id):
+    db, c = open_db()
+    command = "INSERT INTO Items VALUES(%d, '%s', %d, '%s', %d, %d, %d)" % (increment_id("Items"), item_name, price, description, status, user_id)
+    c.execute(command)
+    close_db(db)
     
-def change_item():
-    pass
+def change_item(item_id, item_name, price, description):
+    db, c = open_db()
+    command = "UPDATE Items SET item_name = '%s', price = %d, description = '%s' WHERE item_id = %d" % (item_name, price, description, item_id)
+    c.execute(command)
+    close_db(db)
     
-def add_picture():
-    pass
+# tentative
+def add_picture(item_id, path):
+    db, c = open_db()
+    command = "INSERT INTO Pictures VALUES(%d, %d, '%s')" % (increment_id("Pictures"), item_id, path)
+    close_db(db)
 
 def get_user_id(email):
     db, c = open_db()
     command = "SELECT * FROM Users WHERE email = '%s'" % (hashed(email))
     user = None
-    for u in c.execute(command): # returns either 1 or 0 entries
-        user = u # sets user to the entry if it exists
+    for u in c.execute(command):
+        user = u
     close_db(db)
     return user[0]
 
@@ -89,8 +98,8 @@ def get_user_name(email):
     db, c = open_db()
     command = "SELECT * FROM Users WHERE email = '%s'" % (hashed(email))
     user = None
-    for u in c.execute(command): # returns either 1 or 0 entries
-        user = u # sets user to the entry if it exists
+    for u in c.execute(command):
+        user = u
     close_db(db)
     return user[3]
 

@@ -27,3 +27,5 @@ Finish login and create capabilities
 siuR -- 2018-01-03 11:34:07
 Add prototype filter template
 
+wongA, luoE -- 2018-01-03 2:43:33
+Added add_item(), change_item(), add_picture() to db.py, changed increment_id()
