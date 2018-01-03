@@ -21,10 +21,10 @@ def create_tables():
 
 def auth_user(email, password):
     db, c = open_db()
-    command = "SELECT * FROM Users WHERE email = '%s' AND password = '%s'" % (hashlib.md5(str(email)).hexdigest(), hashlib.md5(str(password)).hexdigest())
-    user = ''
-    for user in c.execute(command): # returns either 1 or 0 entries
-        pass # sets user to the entry if it exists
+    command = "SELECT * FROM Users WHERE email = '%s' AND password = '%s'" % (hashed(email), hashed(password))
+    user = None
+    for u in c.execute(command): # returns either 1 or 0 entries
+        user = u # sets user to the entry if it exists
     close_db(db)
     if user: # checks if user is an empty string
         return True # 1 result
@@ -59,11 +59,9 @@ def add_user(email, password, name):
     if get_user_id(email):
         return -1
 
-    hashed_email = hashlib.md5(str(email)).hexdigest()
-    hashed_password = hashlib.md5(str(password)).hexdigest()
     u_id = increment_id()
     # admin status is false by default (stored in SQL as 0)
-    command = "INSERT INTO Users VALUES(%d, '%s', 0, '%s', '%s')" % (u_id, hashed_password, name, hashed_email)
+    command = "INSERT INTO Users VALUES(%d, '%s', 0, '%s', '%s')" % (u_id, hashed(password), name, hashed(email))
     c.execute(command)
     close_db(db)
 
@@ -79,7 +77,25 @@ def add_picture():
     pass
 
 def get_user_id(email):
-    pass
+    db, c = open_db()
+    command = "SELECT * FROM Users WHERE email = '%s'" % (hashed(email))
+    user = None
+    for u in c.execute(command): # returns either 1 or 0 entries
+        user = u # sets user to the entry if it exists
+    close_db(db)
+    return user[0]
 
-#print add_user('bob1@stuy.edu', '123')
-#print increment_id()
+def get_user_name(email):
+    db, c = open_db()
+    command = "SELECT * FROM Users WHERE email = '%s'" % (hashed(email))
+    user = None
+    for u in c.execute(command): # returns either 1 or 0 entries
+        user = u # sets user to the entry if it exists
+    close_db(db)
+    return user[3]
+
+def hashed(foo):
+    return hashlib.md5(str(foo)).hexdigest()
+
+if __name__ == '__main__':
+    create_tables()

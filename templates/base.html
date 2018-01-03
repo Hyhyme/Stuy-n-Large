@@ -25,12 +25,19 @@
         <ul class="menu">
           <li class="menu-text">Stuy n' Buy</li>
           <li><a href="{{ url_for('index') }}">Home</a></li>
+          {% if logged_in() %}
+          <li><a href="#">Profile</a></li>
+          {% endif %}
         </ul>
       </div>
 
       <div class="top-bar-right">
         <ul class="menu">
+          {% if logged_in() %}
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+          {% else %}
           <li><a href="{{ url_for('login') }}">Login</a></li>
+          {% endif %}
         </ul>
       </div>
 

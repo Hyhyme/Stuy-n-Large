@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
-from utils import auth
+from utils import auth, db
 from utils.auth import logged_in
 
 import os
@@ -32,6 +32,9 @@ def index():
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
+    if logged_in():
+        flash('You are already logged in!')
+        return redirect('index')
     if request.method == 'POST':
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
@@ -45,20 +48,42 @@ def create():
             flash('Email is invalid.')
             return redirect('create')
 
-        name = request.form.get('fname') + ' ' + request.form.get('lname')
+        fname = request.form.get('fname')
+        name = fname + ' ' + request.form.get('lname')
 
         if not auth.add_user(email, password1, name):
             flash('Email already in use.')
             return redirect('login')
 
-        flash('User created!')
+        flash('Welcome ' + fname + '!')
         return redirect('index')
 
     return render_template('create.html')
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    if logged_in():
+        flash('You are already logged in!')
+        return redirect('index')
+    if request.method == 'POST':
+        email = request.form.get('email')
+        if auth.login(email, request.form.get('password')):
+            flash('Welcome back, ' + db.get_user_name(email) + '!')
+            return redirect('index')
+        else:
+            flash('Invalid credentials, please try again.')
+            return redirect('login')
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    if logged_in():
+        flash('You have been logged out.')
+        auth.logout()
+    else:
+        flash('You are not logged in!')
+    return redirect('index')
+
 
 if __name__ == '__main__':
     app.debug = True

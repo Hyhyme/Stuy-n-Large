@@ -16,3 +16,6 @@ def login(email, password):
         session['u_id'] = db.get_user_id(email)
         return True
     return False
+
+def logout():
+    return session.pop('u_id')

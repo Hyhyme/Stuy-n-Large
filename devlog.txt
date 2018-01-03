@@ -21,3 +21,6 @@ Added add_user method with helper methods
 siuR -- 2018-01-02 15:08:30
 Finish create view
 
+siuR -- 2018-01-03 10:24:09
+Finish login and create capabilities
+
