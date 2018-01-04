@@ -7,7 +7,7 @@
     <div class="large-12 cell text-center">
       <h1>Stuy is currently selling...</h1>
     </div>
-    <div class="large-12 cell">
+    <div class="auto cell">
       <ul class="vertical menu accordion-menu" id="filters" data-accordion-menu>
         <li>
           <a id="first">Filters</a>
@@ -24,6 +24,12 @@
         </li>
       </ul>
     </div>
+    <div class="shrink cell">
+      <a class="button success" href="#"><i class="fi-refresh"></i></a>
+    </div>
+    <div class="shrink cell">
+      <a class="button primary" href="{{ url_for('upload') }}">Create Item</a>
+    </div>
   </div>
   <div class="large-12 cell">
     <div class="callout">
@@ -37,7 +43,7 @@
             <img src="assets/img/generic/rectangle-1.jpg">
             <div class="card-section">
               <h4>{{ items[item].price | currency }}</h4>
-              <p>Seller: {{ items[item].user_id }}</p>
+              <p>Seller: {{ username(items[item].user_id) }}</p>
               <p>{{ items[item].description }}</p>
             </div>
           </div>

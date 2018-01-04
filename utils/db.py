@@ -85,6 +85,15 @@ def add_picture(item_id, path):
     command = "INSERT INTO Pictures VALUES(%d, %d, '%s')" % (increment_id("Pictures"), item_id, path)
     close_db(db)
 
+def get_username(u_id):
+    db, c = open_db()
+    command = "SELECT * FROM Users WHERE user_id = %d" % (u_id)
+    user = None
+    for u in c.execute(command):
+        user = u
+    close_db(db)
+    return user[3]
+
 def get_user_id(email):
     db, c = open_db()
     command = "SELECT * FROM Users WHERE email = '%s'" % (hashed(email))

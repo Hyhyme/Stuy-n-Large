@@ -6,6 +6,7 @@
     <!--<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">-->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/foundation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/app.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/foundation-icons.css') }}">
     <title>
       {% block title %}
       {% endblock %}
@@ -20,7 +21,7 @@
           <li class="menu-text">Stuy n' Buy</li>
           <li><a href="{{ url_for('index') }}">Home</a></li>
           {% if logged_in() %}
-          <li><a href="#">Profile</a></li>
+          <li><a href="{{ url_for('profile') }}">Profile</a></li>
           {% endif %}
         </ul>
       </div>

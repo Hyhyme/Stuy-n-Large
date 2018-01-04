@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
 app.jinja_env.globals.update(logged_in = logged_in)
+app.jinja_env.globals.update(username = db.get_username)
 
 def format_currency(value):
     return "${:,}".format(value)
@@ -30,6 +31,20 @@ def index():
         }
         return render_template('index_logged_in.html', items = items)
     return render_template('index.html')
+
+@app.route('/filter')
+def filter():
+    return 'hi'
+
+@app.route('/profile')
+def profile():
+    return 'hi'
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        return redirect('profile.html')
+    return render_template('upload.html')
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():

@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}
+Create Item
+{% endblock %}
+
+{% block content %}
+<div class="grid-container full-screen">
+  <div class="grid-x grid-padding-x full-screen">
+    <div class="large-3 cell"></div>
+    <div class="small-12 large-6 cell text-center vertical-center">
+      <div class="grid-x grid-padding-x">
+
+        <div class="large-12 cell">
+          <h2>Create an Item</h2>
+          <hr>
+        </div>
+        <div class="large-12 cell">
+          <form method="POST" action="" enctype=multipart/form-data>
+            <div class="grid-x grid-padding-x">
+
+              <div class="large-12 cell">
+                <fieldset class="fieldset">
+                  <legend>Type</legend>
+                  <input id="sell" type="radio" name="type" checked="checked"><label for="sell">Selling</label>
+                  <input id="lf" type="radio" name="type"><label for="lf">Looking for</label>
+                  </fieldset>
+              </div>
+
+              <div class="medium-6 large-6 cell">
+                <label>Item Name
+                  <input type="text" name="item" placeholder="SAT Practice Book">
+                </label>
+                <p class="help-text">Keep it brief and descriptive.</p>
+              </div>
+
+              <div class="medium-6 large-6 cell">
+                <label>Price
+                  <div class="input-group">
+                    <span class="input-group-label">$</span>
+                    <input class="input-group-field" name="price" type="number" min="0.00" max="10000.00" step="0.01" placeholder="10.59"/>
+                  </div>
+                </label>
+              </div>
+
+              <div class="large-12 cell">
+                <label>Description
+                  <input type="text" name="description" placeholder="Slighty used, has some writing inside, cover is partially torn.">
+                </label>
+                <p class="help-text">Limited to 150 characters.</p>
+              </div>
+
+              <div class="shrink cell">
+                <label for="pictures" class="button secondary" id="picturesLabel">Upload Pictures</label>
+                <input type="file" id="pictures" name="pictures" class="show-for-sr">
+              </div>
+
+              <div class="auto cell">
+                <fieldset class="fieldset">
+                  <legend>Files</legend>
+                  <p id="filenames"></p>
+                </fieldset>
+              </div>
+
+              <div class="large-12 cell">
+                <input class="button round" type="submit">
+              </div>
+
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="large-3 cell"></div>
+</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+{% endblock %}
