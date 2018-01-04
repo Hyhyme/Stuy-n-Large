@@ -32,3 +32,6 @@ Added add_item(), change_item(), add_picture() to db.py, changed increment_id()
 siuR -- 2018-01-03 23:04:47
 Create template for uploading items
 
+siuR -- 2018-01-04 12:41:20
+Finish image uploading and saving
+

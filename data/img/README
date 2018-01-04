@@ -1,0 +1,1 @@
+This directory is for storing user-uploaded images for items. In production, this folder would be included in the .gitignore, but for our testing purposes, images here will be committed to Git.

@@ -1,4 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
+from werkzeug import secure_filename
+import time
+
 from utils import auth, db
 from utils.auth import logged_in
 
@@ -14,6 +17,13 @@ def format_currency(value):
     return "${:,}".format(value)
 
 app.jinja_env.filters['currency'] = format_currency
+
+UPLOAD_FOLDER = 'data/img'
+ALLOWED_EXTENSIONS = set(['jpg', 'jpeg'])
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route('/')
@@ -42,8 +52,26 @@ def profile():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    session['u_id'] = 0
+    if not logged_in():
+        flash('You are not logged in.')
+        return redirect('index')
     if request.method == 'POST':
-        return redirect('profile.html')
+        f = request.files.getlist('pictures[]')
+
+        for pic in f:
+            if not allowed_file(pic.filename):
+                flash('Pictures must be in .jpg or .jpeg format.')
+                return redirect('upload')
+
+        i = 0
+        for pic in f:
+            timestamp = str(time.time()).replace(".", "_")
+            filename = str(session['u_id']) + '_' + timestamp + '_' + str(i) + '.jpg'
+            pic.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            i += 1
+
+        return redirect('profile')
     return render_template('upload.html')
 
 @app.route('/create', methods=['GET', 'POST'])
