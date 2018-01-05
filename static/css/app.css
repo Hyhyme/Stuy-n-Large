@@ -117,3 +117,7 @@ footer {
 #picturesLabel {
     margin-top: 3rem;
 }
+
+.clickable {
+    cursor: pointer;
+}

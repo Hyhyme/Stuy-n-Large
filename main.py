@@ -14,7 +14,7 @@ app.jinja_env.globals.update(logged_in = logged_in)
 app.jinja_env.globals.update(username = db.get_username)
 
 def format_currency(value):
-    return "${:,}".format(value)
+    return "${:,.2f}".format(value)
 
 app.jinja_env.filters['currency'] = format_currency
 
@@ -63,6 +63,10 @@ def upload():
 
         # handle uploaded images
         f = request.files.getlist('pictures[]')
+
+        if not f:
+            flash('You must upload a picture.')
+            return redirect('upload')
 
         for pic in f:
             if not allowed_file(pic.filename):

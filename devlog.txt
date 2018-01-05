@@ -44,3 +44,6 @@ Work on displaying items in index
 siuR -- 2018-01-05 10:36:52
 Finish create item functionality
 
+siuR -- 2018-01-05 14:24:09
+Add JS for listed items
+

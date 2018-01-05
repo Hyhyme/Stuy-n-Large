@@ -70,7 +70,7 @@ def add_user(email, password, name):
 def add_item(item_name, price, description, is_selling, user_id):
     db, c = open_db()
     i_id = increment_id("Items")
-    command = "INSERT INTO Items VALUES(%d, '%s', %d, '%s', %d, %i, %d)" % (i_id, item_name, price, description, 0, is_selling, user_id)
+    command = "INSERT INTO Items VALUES(%d, '%s', %f, '%s', %d, %i, %d)" % (i_id, item_name, price, description, 0, is_selling, user_id)
     c.execute(command)
     close_db(db)
 
