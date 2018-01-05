@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 from werkzeug import secure_filename
 import time
+import json
 
 from utils import auth, db
 from utils.auth import logged_in
@@ -139,6 +140,17 @@ def logout():
     else:
         flash('You are not logged in!')
     return redirect('index')
+
+
+@app.route('/api/get_items')
+def get_items():
+    return json.dumps(db.get_items())
+
+@app.route('/api/get_item_template')
+def get_item_template():
+    i_id = request.args.get('i_id')
+    items = db.get_item(int(i_id))
+    return render_template('item.html', items = items, item = items.keys()[0])
 
 
 if __name__ == '__main__':

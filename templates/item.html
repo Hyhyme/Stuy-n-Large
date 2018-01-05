@@ -1,0 +1,18 @@
+<div class="medium-4 large-4 cell">
+  <div class="card" id="{{ item }}">
+    <div class="card-divider clickable">
+      {{ items[item].name }}
+    </div>
+    <img src="{{ url_for('static', filename=items[item].path) }}" class="clickable">
+    <div class="card-section">
+      <h4>{{ items[item].price | currency }}</h4>
+      {% if items[item].is_selling %}
+      <p>Seller: {{ username(items[item].user_id) }}</p>
+      {% else %}
+      <p>Buyer: {{ username(items[item].user_id) }}</p>
+      {% endif %}
+      <hr>
+      <p>{{ items[item].description }}</p>
+    </div>
+  </div>
+</div>

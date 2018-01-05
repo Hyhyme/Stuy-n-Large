@@ -47,3 +47,6 @@ Finish create item functionality
 siuR -- 2018-01-05 14:24:09
 Add JS for listed items
 
+siuR -- 2018-01-05 16:09:17
+Add refresh to item listing page
+
