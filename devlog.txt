@@ -38,3 +38,6 @@ Finish image uploading and saving
 siuR -- 2018-01-04 21:45:09
 Finish create item feature
 
+siuR -- 2018-01-05 10:11:45
+Work on displaying items in index
+

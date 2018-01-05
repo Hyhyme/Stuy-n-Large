@@ -40,7 +40,7 @@
             <div class="card-divider">
               {{ items[item].name }}
             </div>
-            <img src="assets/img/generic/rectangle-1.jpg">
+            <img src="{{ items[item].path }}">
             <div class="card-section">
               <h4>{{ items[item].price | currency }}</h4>
               <p>Seller: {{ username(items[item].user_id) }}</p>

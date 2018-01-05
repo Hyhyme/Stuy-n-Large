@@ -8,7 +8,7 @@ from utils.auth import logged_in
 import os
 
 app = Flask(__name__)
-app.secret_key = os.urandom(32)
+app.secret_key = 'testing secret key' #os.urandom(32)
 
 app.jinja_env.globals.update(logged_in = logged_in)
 app.jinja_env.globals.update(username = db.get_username)
@@ -29,16 +29,11 @@ def allowed_file(filename):
 @app.route('/')
 @app.route('/index')
 def index():
-    session['u_id'] = 'test'
     if logged_in():
-        items = {
-            0: {'name': 'banana', 'price': 2, 'description': 'Brand new!', 'status': 0, 'is_selling': True, 'user_id': 0},
-            1: {'name': 'Physics Textbook', 'price': 1200, 'description': 'Get a head start on your AP Physics C class with this amazing textbook!', 'status': 0, 'is_selling': True, 'user_id': 0},
-            2: {'name': 'banana', 'price': 2, 'description': 'Brand new!', 'status': 0, 'is_selling': True, 'user_id': 0},
-            3: {'name': 'banana', 'price': 2, 'description': 'Brand new!', 'status': 0, 'is_selling': True, 'user_id': 0},
-            4: {'name': 'Physics Textbook', 'price': 1200, 'description': 'Get a head start on your AP Physics C class with this amazing textbook!', 'status': 0, 'is_selling': True, 'user_id': 0},
-            5: {'name': 'banana', 'price': 2, 'description': 'Brand new!', 'status': 0, 'is_selling': True, 'user_id': 0}
-        }
+        items = db.get_items()
+        #items = {
+        #    0: {'name': 'banana', 'price': 2, 'description': 'Brand new!', 'status': 0, 'is_selling': True, 'user_id': 0, 'path': 'data/img/0'}
+        #}
         return render_template('index_logged_in.html', items = items)
     return render_template('index.html')
 
@@ -52,7 +47,6 @@ def profile():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    session['u_id'] = 0
     if not logged_in():
         flash('You are not logged in.')
         return redirect('index')
@@ -68,7 +62,7 @@ def upload():
             flash('You must fill out all fields.')
             return redirect('upload')
 
-        i_id = db.add_item(item, price, description, is_selling, session['u_id'])
+        i_id = db.add_item(item, price, description, is_selling, int(session['u_id']))
 
         # handle uploaded images
         f = request.files.getlist('pictures[]')

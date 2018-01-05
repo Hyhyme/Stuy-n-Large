@@ -90,6 +90,37 @@ def add_picture(item_id, path):
 
     return p_id
 
+def get_pictures(item_id):
+    db, c = open_db()
+    command = "SELECT * FROM Pictures WHERE item_id = %d" % (item_id)
+    pictures = []
+    for p in c.execute(command):
+        pictures.append(p)
+    close_db(db)
+
+    return pictures
+
+def get_items():
+    db, c = open_db()
+    command = "SELECT * FROM Items"
+    items = []
+    d = {}
+    for i in c.execute(command):
+        d[i[0]] = {}
+        d[i[0]]['name'] = i[1]
+        d[i[0]]['price'] = i[2]
+        d[i[0]]['description'] = i[3]
+        d[i[0]]['status'] = i[4]
+        d[i[0]]['is_selling'] = True if i[5] == 1 else False
+        d[i[0]]['user_id'] = i[6]
+        pics = get_pictures(i[0])
+        print pics
+        d[i[0]]['path'] = pics[0][2]
+        items.append(i)
+    close_db(db)
+
+    return items
+
 def get_username(u_id):
     db, c = open_db()
     command = "SELECT * FROM Users WHERE user_id = %d" % (u_id)
