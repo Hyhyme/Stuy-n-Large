@@ -34,13 +34,16 @@
   <div class="large-12 cell">
     <div class="callout">
       <div class="grid-x grid-padding-x">
+        {% if not items %}
+        <h4>There are currently no items available.</h4>
+        {% endif %}
         {% for item in items %}
         <div class="medium-4 large-4 cell">
           <div class="card">
             <div class="card-divider">
               {{ items[item].name }}
             </div>
-            <img src="{{ items[item].path }}">
+            <img src="{{ url_for('static', filename=items[item].path) }}">
             <div class="card-section">
               <h4>{{ items[item].price | currency }}</h4>
               <p>Seller: {{ username(items[item].user_id) }}</p>

@@ -18,7 +18,7 @@ def format_currency(value):
 
 app.jinja_env.filters['currency'] = format_currency
 
-UPLOAD_FOLDER = 'data/img'
+UPLOAD_FOLDER = 'static/data/img'
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -31,9 +31,6 @@ def allowed_file(filename):
 def index():
     if logged_in():
         items = db.get_items()
-        #items = {
-        #    0: {'name': 'banana', 'price': 2, 'description': 'Brand new!', 'status': 0, 'is_selling': True, 'user_id': 0, 'path': 'data/img/0'}
-        #}
         return render_template('index_logged_in.html', items = items)
     return render_template('index.html')
 
@@ -76,9 +73,10 @@ def upload():
         for pic in f:
             timestamp = str(time.time()).replace(".", "_")
             filename = str(session['u_id']) + '_' + timestamp + '_' + str(i) + '.jpg'
+
             path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             pic.save(path)
-            db.add_picture(i_id, path)
+            db.add_picture(i_id, path.strip('static/'))
             i += 1
 
         return redirect('profile')

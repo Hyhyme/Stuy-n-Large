@@ -41,3 +41,6 @@ Finish create item feature
 siuR -- 2018-01-05 10:11:45
 Work on displaying items in index
 
+siuR -- 2018-01-05 10:36:52
+Finish create item functionality
+

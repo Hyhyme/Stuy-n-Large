@@ -86,6 +86,7 @@ def add_picture(item_id, path):
     db, c = open_db()
     p_id = increment_id("Pictures")
     command = "INSERT INTO Pictures VALUES(%d, %d, '%s')" % (p_id, item_id, path)
+    c.execute(command)
     close_db(db)
 
     return p_id
@@ -114,12 +115,11 @@ def get_items():
         d[i[0]]['is_selling'] = True if i[5] == 1 else False
         d[i[0]]['user_id'] = i[6]
         pics = get_pictures(i[0])
-        print pics
         d[i[0]]['path'] = pics[0][2]
         items.append(i)
     close_db(db)
 
-    return items
+    return d
 
 def get_username(u_id):
     db, c = open_db()
@@ -137,8 +137,10 @@ def get_user_id(email):
     for u in c.execute(command):
         user = u
     close_db(db)
-    return user[0]
-
+    if user:
+        return user[0]
+    return user
+    
 def get_user_name(email):
     db, c = open_db()
     command = "SELECT * FROM Users WHERE email = '%s'" % (hashed(email))
