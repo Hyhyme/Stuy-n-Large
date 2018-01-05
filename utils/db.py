@@ -67,23 +67,28 @@ def add_user(email, password, name):
 
     return u_id
 
-def add_item(item_name, price, description, user_id):
+def add_item(item_name, price, description, is_selling, user_id):
     db, c = open_db()
-    command = "INSERT INTO Items VALUES(%d, '%s', %d, '%s', %d, %d, %d)" % (increment_id("Items"), item_name, price, description, 0, user_id)
+    i_id = increment_id("Items")
+    command = "INSERT INTO Items VALUES(%d, '%s', %d, '%s', %d, %i, %d)" % (i_id, item_name, price, description, 0, is_selling, user_id)
     c.execute(command)
     close_db(db)
-    
+
+    return i_id
+
 def change_item(item_id, item_name, price, description):
     db, c = open_db()
-    command = "UPDATE Items SET item_name = '%s', price = %d, description = '%s' WHERE item_id = %d" % (item_name, price, description, item_id)
+    command = "UPDATE Items SET item_name = '%s', price = %f, description = '%s' WHERE item_id = %d" % (item_name, price, description, item_id)
     c.execute(command)
     close_db(db)
-    
-# tentative
+
 def add_picture(item_id, path):
     db, c = open_db()
-    command = "INSERT INTO Pictures VALUES(%d, %d, '%s')" % (increment_id("Pictures"), item_id, path)
+    p_id = increment_id("Pictures")
+    command = "INSERT INTO Pictures VALUES(%d, %d, '%s')" % (p_id, item_id, path)
     close_db(db)
+
+    return p_id
 
 def get_username(u_id):
     db, c = open_db()

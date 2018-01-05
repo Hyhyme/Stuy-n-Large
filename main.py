@@ -57,6 +57,20 @@ def upload():
         flash('You are not logged in.')
         return redirect('index')
     if request.method == 'POST':
+
+        is_selling = True if request.form.get('type') == 'sell' else False
+
+        item = request.form.get('item')
+        price = float(request.form.get('price'))
+        description = request.form.get('description')
+
+        if not item or not price or not description:
+            flash('You must fill out all fields.')
+            return redirect('upload')
+
+        i_id = db.add_item(item, price, description, is_selling, session['u_id'])
+
+        # handle uploaded images
         f = request.files.getlist('pictures[]')
 
         for pic in f:
@@ -68,7 +82,9 @@ def upload():
         for pic in f:
             timestamp = str(time.time()).replace(".", "_")
             filename = str(session['u_id']) + '_' + timestamp + '_' + str(i) + '.jpg'
-            pic.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            pic.save(path)
+            db.add_picture(i_id, path)
             i += 1
 
         return redirect('profile')

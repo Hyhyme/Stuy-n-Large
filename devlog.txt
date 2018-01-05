@@ -35,3 +35,6 @@ Create template for uploading items
 siuR -- 2018-01-04 12:41:20
 Finish image uploading and saving
 
+siuR -- 2018-01-04 21:45:09
+Finish create item feature
+
