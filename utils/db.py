@@ -76,6 +76,7 @@ def add_item(item_name, price, description, is_selling, user_id):
 
     return i_id
 
+# Modify to take optional parameters
 def change_item(item_id, item_name, price, description):
     db, c = open_db()
     command = "UPDATE Items SET item_name = '%s', price = %f, description = '%s' WHERE item_id = %d" % (item_name, price, description, item_id)

@@ -37,6 +37,7 @@ var refresh = function() {
 refreshButton.addEventListener("click", refresh);
 
 var listingCell = document.getElementById("listingCell");
+var emptyText = document.getElementsByClassName("emptyText");
 
 var addItem = function(itemId) {
   $.ajax({
@@ -44,6 +45,7 @@ var addItem = function(itemId) {
     type: 'GET',
     success: function(itemTemplate) {
       listingCell.innerHTML = itemTemplate + listingCell.innerHTML;
+      emptyText.remove();
     }
   });
 }

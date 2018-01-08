@@ -35,7 +35,7 @@
     <div class="callout">
       <div class="grid-x grid-padding-x" id="listingCell">
         {% if not items %}
-        <h4>There are currently no items available.</h4>
+        <h4 id="emptyText">There are currently no items available.</h4>
         {% endif %}
         {% for item in items %}
           {% include "item.html" %}

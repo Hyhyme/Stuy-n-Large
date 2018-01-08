@@ -41,7 +41,11 @@ def filter():
 
 @app.route('/profile')
 def profile():
-    return 'hi'
+    return render_template("profile.html")
+
+@app.route('/item')
+def item():
+    return render_template("item_page.html")
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
@@ -142,6 +146,7 @@ def logout():
     return redirect('index')
 
 
+# API routes
 @app.route('/api/get_items')
 def get_items():
     return json.dumps(db.get_items())
