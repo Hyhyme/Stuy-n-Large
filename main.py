@@ -57,12 +57,14 @@ def upload():
         is_selling = True if request.form.get('type') == 'sell' else False
 
         item = request.form.get('item')
-        price = float(request.form.get('price'))
+        price = request.form.get('price')
         description = request.form.get('description')
 
         if not item or not price or not description:
             flash('You must fill out all fields.')
             return redirect('upload')
+
+        price = float(price)
 
         i_id = db.add_item(item, price, description, is_selling, int(session['u_id']))
 

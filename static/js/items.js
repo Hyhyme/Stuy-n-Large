@@ -1,16 +1,17 @@
-var clickables = document.getElementsByClassName("clickable");
+var makeClickable = function() {
+  var clickables = document.getElementsByClassName("clickable");
 
-for (var i = 0; i < clickables.length; i++) {
-  clickables[i].addEventListener("click", function() {
-    alert(this.parentElement.getAttribute("id"));
-  });
-  clickables[i].addEventListener("mouseover", function() {
-    this.parentElement.style.boxShadow = "5px 10px 15px black";
-  });
-  clickables[i].addEventListener("mouseleave", function() {
-    this.parentElement.style.boxShadow = "none";
-  });
-
+  for (var i = 0; i < clickables.length; i++) {
+    clickables[i].addEventListener("click", function() {
+      alert(this.parentElement.getAttribute("id"));
+    });
+    clickables[i].addEventListener("mouseover", function() {
+      this.parentElement.style.boxShadow = "5px 10px 15px black";
+    });
+    clickables[i].addEventListener("mouseleave", function() {
+      this.parentElement.style.boxShadow = "none";
+    });
+  }
 }
 
 var refreshButton = document.getElementById("refresh");
@@ -37,7 +38,6 @@ var refresh = function() {
 refreshButton.addEventListener("click", refresh);
 
 var listingCell = document.getElementById("listingCell");
-var emptyText = document.getElementsByClassName("emptyText");
 
 var addItem = function(itemId) {
   $.ajax({
@@ -45,7 +45,10 @@ var addItem = function(itemId) {
     type: 'GET',
     success: function(itemTemplate) {
       listingCell.innerHTML = itemTemplate + listingCell.innerHTML;
-      emptyText.remove();
+      document.getElementById("emptyText").remove();
+      makeClickable();
     }
   });
 }
+
+makeClickable();
