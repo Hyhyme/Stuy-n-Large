@@ -3,7 +3,7 @@
     <div class="card-divider clickable">
       {{ items[item].name }}
     </div>
-    <img src="{{ url_for('static', filename=items[item].path) }}" class="clickable">
+    <img src="{{ url_for('static', filename=items[item].images[0][2]) }}" class="clickable">
     <div class="card-section">
       <h4>{{ items[item].price | currency }}</h4>
       {% if items[item].is_selling %}

@@ -159,6 +159,11 @@ def get_item_template():
     items = db.get_item(int(i_id))
     return render_template('item.html', items = items, item = items.keys()[0])
 
+@app.route('/api/get_item_modal')
+def get_item_modal():
+    i_id = request.args.get('i_id')
+    item = db.get_item(int(i_id))
+    return render_template('item_modal.html', item = item)
 
 if __name__ == '__main__':
     app.debug = True
