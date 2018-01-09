@@ -53,3 +53,6 @@ Add refresh to item listing page
 siuR -- 2018-01-08 14:51:58
 Fix item display bugs
 
+korsunM -- 2018-01-09 14:18:16
+gave profile some limited frontend functionality
+
