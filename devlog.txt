@@ -53,6 +53,11 @@ Add refresh to item listing page
 siuR -- 2018-01-08 14:51:58
 Fix item display bugs
 
+korsunM -- 2018-01-09 14:18:16
+gave profile some limited frontend functionality
+
+korsunM -- 2018-01-09 14:41:06
+profile.html now loads and functions. debugging of filtering for items still needs to be checked, but as of now it should onyl display items made by the logged in user.
+
 siuR -- 2018-01-09 14:52:14
 Start item modal
-
