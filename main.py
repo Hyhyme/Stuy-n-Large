@@ -41,7 +41,19 @@ def filter():
 
 @app.route('/profile')
 def profile():
-    return render_template("profile.html")
+    if not logged_in():
+        flash('You are not logged in.')
+        return redirect('index')
+    user = session['u_id']
+    ## make a dict where all Uitems = items where items['u_id'] == session['u_id']
+    items = db.get_items()
+    Uitems = {}
+    x=0
+    for i in items:
+        if items[i]['user_id'] == user:
+            Uitems[x] = items[i]
+            x+=1
+    return render_template("profile.html", items = Uitems)
 
 @app.route('/item')
 def item():
