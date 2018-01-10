@@ -5,6 +5,7 @@ var makeClickable = function() {
     clickables[i].addEventListener("click", function() {
       var i_id = this.parentElement.getAttribute("id");
       openItemModal(i_id);
+      this.parentElement.style.boxShadow = "none";
     });
     clickables[i].addEventListener("mouseover", function() {
       this.parentElement.style.boxShadow = "5px 10px 15px black";
@@ -38,13 +39,12 @@ var refresh = function() {
 
 refreshButton.addEventListener("click", refresh);
 
-var listingCell = document.getElementById("listingCell");
-
 var addItem = function(itemId) {
   $.ajax({
     url: '/api/get_item_template?i_id=' + itemId,
     type: 'GET',
     success: function(itemTemplate) {
+      var listingCell = document.getElementById("listingCell");
       listingCell.innerHTML = itemTemplate + listingCell.innerHTML;
       document.getElementById("emptyText").remove();
       makeClickable();
@@ -57,11 +57,11 @@ var openItemModal = function(itemId) {
     url: '/api/get_item_modal?i_id=' + itemId,
     type: 'GET',
     success: function(itemTemplate) {
-      if (!document.getElementById("item" + itemId)) {
-        document.getElementsByTagName("body")[0].innerHTML += itemTemplate;
-      }
+      document.getElementsByTagName("body")[0].innerHTML += itemTemplate;
       var itemModal = new Foundation.Reveal($('#item' + itemId));
       itemModal.open();
+      $('#item' + itemId).foundation();
+      makeClickable();
     }
   });
 }

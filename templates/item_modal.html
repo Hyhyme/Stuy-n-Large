@@ -1,8 +1,63 @@
-<div class="reveal" id="item{{ item.keys()[0] }}" data-reveal>
-  <h1>Awesome. I Have It.</h1>
-  <p class="lead">Your couch. It is mine.</p>
-  <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
-  <button class="close-button" data-close aria-label="Close modal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
+<style>
+  .orbit-container {
+    max-width: 50vh;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .orbit-previous {
+    background: rgba(10, 10, 10, 0.5);
+    left: -1%;
+  }
+  .orbit-next {
+    background: rgba(10, 10, 10, 0.5);
+    right: -1%;
+  }
+  #modal {
+    padding-top: 5rem;
+  }
+</style>
+
+<div class="reveal full" id="item{{ item.keys()[0] }}">
+  <div class="grid-container" id="modal">
+    <div class="grid-padding-x grid-x">
+      <div class="large-6 cell">
+        <div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
+          <div class="orbit-wrapper">
+            <div class="orbit-controls">
+              <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
+              <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
+            </div>
+            <ul class="orbit-container">
+              {% for pic in item[0].images %}
+              <li class="orbit-slide">
+                <figure class="orbit-figure">
+                  <img class="orbit-image" src="{{ url_for('static', filename=pic[2]) }}" alt="{{ item[0].name }}">
+                </figure>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <nav class="orbit-bullets">
+            <button data-slide="0"></button>
+            <button data-slide="1"></button>
+            <button data-slide="2"></button>
+          </nav>
+        </div>
+        <button class="close-button" data-close aria-label="Close modal" type="button">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="large-6 cell">
+        <h2>{{ item[0].name }}</h2>
+        {% if item[0].is_selling %}
+        {% set is_selling = "Looking for" %}
+        {% else %}
+        {% set is_selling = "Looking for" %}
+        {% endif %}
+        <p>{{ username(item[0].user_id) }} &middot; {{ is_selling }} &middot; Price: <strong>{{ item[0].price | currency }}</strong></p>
+        <hr>
+        <p>{{ item[0].description }}</p>
+      </div>
+    </div>
+  </div>
 </div>
