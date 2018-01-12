@@ -64,3 +64,6 @@ Start item modal
 siuR -- 2018-01-10 18:10:51
 Start item page
 
+siuR -- 2018-01-12 14:50:01
+Fix AJAX bug
+
