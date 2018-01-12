@@ -61,6 +61,12 @@ profile.html now loads and functions. debugging of filtering for items still nee
 
 siuR -- 2018-01-09 14:52:14
 Start item modal
+
 siuR -- 2018-01-10 18:10:51
 Start item page
 
+siuR -- 2018-01-12 14:50:01
+Fix AJAX bug
+
+luoE -- 2018-1-10 14:51:10
+Added to about us and worked on terms of service verification

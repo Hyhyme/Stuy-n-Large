@@ -17,6 +17,8 @@
   }
 </style>
 
+{% set i_id = item.keys()[0] %}
+
 <div class="reveal full" id="item{{ item.keys()[0] }}">
   <div class="grid-container" id="modal">
     <div class="grid-padding-x grid-x">
@@ -28,10 +30,10 @@
               <button class="orbit-next"><span class="show-for-sr">Next Slide</span>&#9654;&#xFE0E;</button>
             </div>
             <ul class="orbit-container">
-              {% for pic in item[0].images %}
+              {% for pic in item[i_id].images %}
               <li class="orbit-slide">
                 <figure class="orbit-figure">
-                  <img class="orbit-image" src="{{ url_for('static', filename=pic[2]) }}" alt="{{ item[0].name }}">
+                  <img class="orbit-image" src="{{ url_for('static', filename=pic[2]) }}" alt="{{ item[i_id].name }}">
                 </figure>
               </li>
               {% endfor %}
@@ -48,15 +50,15 @@
         </button>
       </div>
       <div class="large-6 cell">
-        <h2>{{ item[0].name }}</h2>
-        {% if item[0].is_selling %}
-        {% set is_selling = "Looking for" %}
+        <h2>{{ item[i_id].name }}</h2>
+        {% if item[i_id].is_selling %}
+        {% set is_selling = "Selling" %}
         {% else %}
         {% set is_selling = "Looking for" %}
         {% endif %}
-        <p>{{ username(item[0].user_id) }} &middot; {{ is_selling }} &middot; Price: <strong>{{ item[0].price | currency }}</strong></p>
+        <p>{{ username(item[i_id].user_id) }} &middot; {{ is_selling }} &middot; Price: <strong>{{ item[i_id].price | currency }}</strong></p>
         <hr>
-        <p>{{ item[0].description }}</p>
+        <p>{{ item[i_id].description }}</p>
       </div>
     </div>
   </div>
