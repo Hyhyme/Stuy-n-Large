@@ -64,3 +64,5 @@ Start item modal
 siuR -- 2018-01-10 18:10:51
 Start item page
 
+luoE -- 2018-1-10 14:51:10
+Added to about us and worked on terms of service verification
