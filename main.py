@@ -159,6 +159,10 @@ def logout():
         flash('You are not logged in!')
     return redirect('index')
 
+@app.route('/send_email', methods=['GET', 'POST'])
+def send_email():
+    return request.form.get("email")
+
 
 # API routes
 @app.route('/api/get_items')

@@ -70,3 +70,9 @@ Fix AJAX bug
 
 luoE -- 2018-1-10 14:51:10
 Added to about us and worked on terms of service verification
+siuR -- 2018-01-16 14:18:56
+Display the correct number of orbit buttons
+
+siuR -- 2018-01-16 14:57:05
+Add contact form on item page
+

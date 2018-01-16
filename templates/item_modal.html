@@ -23,7 +23,7 @@
   <div class="grid-container" id="modal">
     <div class="grid-padding-x grid-x">
       <div class="large-6 cell">
-        <div class="orbit" role="region" aria-label="Favorite Space Pictures" data-orbit>
+        <div class="orbit" role="region" aria-label="Item Pictures" data-orbit>
           <div class="orbit-wrapper">
             <div class="orbit-controls">
               <button class="orbit-previous"><span class="show-for-sr">Previous Slide</span>&#9664;&#xFE0E;</button>
@@ -40,9 +40,13 @@
             </ul>
           </div>
           <nav class="orbit-bullets">
-            <button data-slide="0"></button>
-            <button data-slide="1"></button>
-            <button data-slide="2"></button>
+            {% for pic in item[i_id].images %}
+            {% if loop.index == 1 %}
+            <button class="is-active" data-slide="{{ loop.index - 1 }}"></button>
+            {% else %}
+            <button data-slide="{{ loop.index - 1}}"></button>
+            {% endif %}
+            {% endfor %}
           </nav>
         </div>
         <button class="close-button" data-close aria-label="Close modal" type="button">
@@ -59,6 +63,24 @@
         <p>{{ username(item[i_id].user_id) }} &middot; {{ is_selling }} &middot; Price: <strong>{{ item[i_id].price | currency }}</strong></p>
         <hr>
         <p>{{ item[i_id].description }}</p>
+        <hr>
+
+        <div class="grid-padding-x grid-x">
+          <div class="large-12 cell">
+            {% if item[i_id].is_selling %}
+            {% set is_selling = "seller" %}
+            {% else %}
+            {% set is_selling = "buyer" %}
+            {% endif %}
+            <h3>Contact the {{ is_selling }}</h3>
+          </div>
+          <div class="large-12 cell">
+            <form method="POST" action="{{ url_for('send_email')}}">
+              <textarea name="email" placeholder="Write your message here"></textarea>
+              <input class="button round" type="submit" value="Send">
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>
