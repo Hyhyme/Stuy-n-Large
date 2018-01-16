@@ -71,3 +71,6 @@ Start item page
 siuR -- 2018-01-12 14:50:01
 Fix AJAX bug
 
+luoE -- 2018-01-16 14:47:47
+Added to about us, fixed terms of service, worked on database
+
