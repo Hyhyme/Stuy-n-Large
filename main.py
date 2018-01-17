@@ -113,27 +113,33 @@ def create():
         return redirect('index')
     
     if request.method == 'POST':
-
+        
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
+        email = request.form.get('email')        
+        fname = request.form.get('fname')
+        lname = request.form.get('lname')
+        name = fname + ' ' + lname
+        terms = request.form.get('terms')
 
+        if ( password1 == '' or password2 == '' or fname == '' or lname == '' or email == ''):
+            
+            flash('Please fill in all fields')
+            return redirect('create')
+        
         if not password1 == password2:
             flash('Passwords do not match.')
             return redirect('create')
 
-        email = request.form.get('email')
+
         if not email.endswith('@stuy.edu'):
             flash('Email is invalid.')
             return redirect('create')
-
-        fname = request.form.get('fname')
-        name = fname + ' ' + request.form.get('lname')
 
         if not auth.add_user(email, password1, name):
             flash('Email already in use.')
             return redirect('login')
         
-        terms = request.form.get('terms')
         if terms == None:
             flash('Please read and accept the terms of service')
             return redirect('create')
