@@ -115,26 +115,24 @@ def upload():
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
-
     if logged_in():
         flash('You are already logged in!')
         return redirect('index')
-    
+
     if request.method == 'POST':
-        
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-        email = request.form.get('email')        
+        email = request.form.get('email')
         fname = request.form.get('fname')
         lname = request.form.get('lname')
         name = fname + ' ' + lname
         terms = request.form.get('terms')
 
         if ( password1 == '' or password2 == '' or fname == '' or lname == '' or email == ''):
-            
+
             flash('Please fill in all fields')
             return redirect('create')
-        
+
         if not password1 == password2:
             flash('Passwords do not match.')
             return redirect('create')
@@ -144,13 +142,13 @@ def create():
             flash('Email is invalid.')
             return redirect('create')
 
+        if not terms:
+            flash('Please read and accept the terms of service')
+            return redirect('create')
+
         if not auth.add_user(email, password1, name):
             flash('Email already in use.')
             return redirect('login')
-        
-        if terms == None:
-            flash('Please read and accept the terms of service')
-            return redirect('create')
 
         flash('Welcome ' + fname + '!')
         return redirect('index')
@@ -188,6 +186,8 @@ def send_email():
 
 # API routes
 FILTERS = {
+    'selling': db.get_items_is_selling(True),
+    'looking_for': db.get_items_is_selling(False),
     'under_5': db.get_items_price(0, 4.99),
     '5_10': db.get_items_price(5, 9.99),
     '10_15': db.get_items_price(10, 14.99),
@@ -198,6 +198,8 @@ FILTERS = {
 def get_items_filters():
     items = {}
     filters = request.args.get("filters").split(',')
+    if filters == ['']:
+        return json.dumps(db.get_items())
     for f in filters:
         for item in FILTERS[f]:
             items[item] = FILTERS[f][item]

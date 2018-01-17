@@ -91,3 +91,6 @@ Terms of service now works
 siuR -- 2018-01-17 15:21:58
 Finish filter functionality (AJAX, templating, database accessing)
 
+siuR -- 2018-01-17 16:06:26
+Add selling and looking for filters
+

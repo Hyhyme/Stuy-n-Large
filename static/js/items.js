@@ -30,6 +30,7 @@ var refresh = function() {
           addItem(item);
         }
       }
+      setSelectValues([]);
     }
   });
 
@@ -117,6 +118,8 @@ var setSelectValues = function(selectedOptions) {
 
     if (selectedOptions.indexOf(opt.value) != -1) {
       opt.selected = true;
+    } else {
+      opt.selected = false;
     }
   }
 }
