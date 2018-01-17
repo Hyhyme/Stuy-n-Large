@@ -30,6 +30,7 @@ Add prototype filter template
 
 wongA, luoE -- 2018-01-03 2:43:33
 Added add_item(), change_item(), add_picture() to db.py, changed increment_id()
+
 siuR -- 2018-01-03 23:04:47
 Create template for uploading items
 
@@ -83,6 +84,9 @@ Add contact form on item page
 
 siuR -- 2018-01-17 13:14:25
 Add filters and restructure items page
+
+luoE -- 2018-01-17 14:22:33
+Terms of service now works
 
 siuR -- 2018-01-17 15:21:58
 Finish filter functionality (AJAX, templating, database accessing)
