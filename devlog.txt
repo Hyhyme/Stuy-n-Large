@@ -17,7 +17,8 @@ siuR -- 2018-01-02 14:07:55
 Start logged in index page
 
 wongA -- 2018-01-02 14:41:21
-Added add_user method with helper methods 
+Added add_user method with helper methods
+
 siuR -- 2018-01-02 15:08:30
 Finish create view
 
@@ -62,11 +63,24 @@ profile.html now loads and functions. debugging of filtering for items still nee
 siuR -- 2018-01-09 14:52:14
 Start item modal
 
+luoE -- 2018-1-10 14:51:10
+Added to about us and worked on terms of service verification
+
 siuR -- 2018-01-10 18:10:51
 Start item page
 
 siuR -- 2018-01-12 14:50:01
 Fix AJAX bug
 
-luoE -- 2018-1-10 14:51:10
-Added to about us and worked on terms of service verification
+siuR -- 2018-01-16 14:18:56
+Display the correct number of orbit buttons
+
+luoE -- 2018-01-16 14:47:47
+Added to about us, fixed terms of service, worked on database
+
+siuR -- 2018-01-16 14:57:05
+Add contact form on item page
+
+siuR -- 2018-01-17 13:14:25
+Add filters and restructure items page
+

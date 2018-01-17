@@ -119,6 +119,9 @@ def get_items():
 
     return d
 
+def get_items_price(lower, upper):
+    return 'test'
+
 def get_item(item_id):
     db, c = open_db()
     command = "SELECT * FROM Items WHERE item_id = %d" % (item_id)
