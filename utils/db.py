@@ -139,6 +139,13 @@ def get_item(item_id):
 
     return d
 
+
+def delete_item(item_id):
+    db, c = open_db()
+    command = "DELETE FROM Items WHERE item_id = %d" % (int(item_id))
+    c.execute(command)
+    
+
 def get_username(u_id):
     db, c = open_db()
     command = "SELECT * FROM Users WHERE user_id = %d" % (u_id)

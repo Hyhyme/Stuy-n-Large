@@ -48,12 +48,10 @@ def profile():
     ## make a dict where all Uitems = items where items['u_id'] == session['u_id']
     items = db.get_items()
     Uitems = {}
-    x=0
     for i in items:
         if items[i]['user_id'] == user:
-            Uitems[x] = items[i]
-            x+=1
-    return render_template("profile.html", items = Uitems)
+            Uitems[i] = items[i]
+    return render_template("profile.html", items = Uitems, user=user )
 
 @app.route('/item')
 def item():
@@ -134,6 +132,16 @@ def create():
         return redirect('index')
 
     return render_template('create.html')
+
+
+@app.route('/delete', methods = ['GET','POST'])
+def delete():
+    if not logged_in():
+        flash('You are not logged in.')
+        return redirect('index')
+    if request.method == 'GET':
+        db.delete_item(request.args.get('itemid'))
+    return redirect('index')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

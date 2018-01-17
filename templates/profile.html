@@ -9,35 +9,41 @@
       <h1>Profile</h1>
     </div>
     <div class="auto cell">
-    <div class="shrink cell">
-      <a class="button primary" href="{{ url_for('upload') }}">Create Item</a>
+      <div class="shrink cell">
+	<a class="button primary" href="{{ url_for('upload') }}">Create Item</a>
+      </div>
     </div>
-  </div>
-  <div class="large-12 cell">
-    <div class="callout">
-      <div class="grid-x grid-padding-x" id="listingCell">
-        {% if not items %}
-        <h4 id="emptyText">You have not sold any items.</h4>
-        {% endif %}
-        {% for item in items %}
+    <div class="large-3 cell">  
+      <div class="callout">
+	<div class="grid-x grid-padding-x" id="listingCell">
+	</div>
+      </div>
+    </div>
+    <div class="large-9 cell" id="listingCell">
+      <div class="callout">
+	<div class="grid-x grid-padding-x" id="listingCell">
+          {% if not items %}
+          <h4 id="emptyText">You have not sold any items.</h4>
+          {% endif %}
+          {% for item in items %}
           {% include "item.html" %}
-        {% endfor %}
+          {% endfor %}
+	</div>
+      </div>
+    </div>
+    <div class="large-9 cell">
+      <div class="callout">
+	<div class="grid-x grid-padding-x" id="listingCell">
+          {% if not items %}
+          <h4 id="emptyText">You have not bought any items.</h4>
+          {% endif %}
+          {% for item in items %}
+          {% include "item.html" %}
+          {% endfor %}
+	</div>
       </div>
     </div>
   </div>
-  <div class="large-12 cell">
-    <div class="callout">
-      <div class="grid-x grid-padding-x" id="listingCell">
-        {% if not items %}
-        <h4 id="emptyText">You have not bought any items.</h4>
-        {% endif %}
-        {% for item in items %}
-          {% include "item.html" %}
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</div>
 </div>
 
 {% endblock %}

@@ -12,7 +12,13 @@
       <p>Buyer: {{ username(items[item].user_id) }}</p>
       {% endif %}
       <hr>
-      <p>{{ items[item].description }}</p>
+      <p>{{ items[item].description }}{{item}}</p>
+      <p>{% if items[item]['user_id'] == user %}	
+	<form action="/delete?i_id={{item}}" > 
+	  <input type="submit" value="{{item}}delete"/> 
+	</form>
+	{% endif %}</p>
+
     </div>
   </div>
 </div>
