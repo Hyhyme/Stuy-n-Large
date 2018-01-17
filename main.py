@@ -78,6 +78,14 @@ def upload():
 
         price = float(price)
 
+        if price < 0:
+            flash('Price must be greater than $0.')
+            return redirect('upload')
+
+        if price > 9999.99:
+            flash('Price must be less than $10,000.')
+            return redirect('upload')
+
         i_id = db.add_item(item, price, description, is_selling, int(session['u_id']))
 
         # handle uploaded images
@@ -166,15 +174,20 @@ def send_email():
 
 # API routes
 FILTERS = {
-    'under_5': db.get_items_price(0, 4.99)
+    'under_5': db.get_items_price(0, 4.99),
+    '5_10': db.get_items_price(5, 9.99),
+    '10_15': db.get_items_price(10, 14.99),
+    'over_15': db.get_items_price(15, 9999.99)
 }
 
 @app.route('/api/get_items_filters')
 def get_items_filters():
+    items = {}
     filters = request.args.get("filters").split(',')
     for f in filters:
-        print FILTERS[f]
-    return filters
+        for item in FILTERS[f]:
+            items[item] = FILTERS[f][item]
+    return json.dumps(items)
 
 @app.route('/api/get_items')
 def get_items():

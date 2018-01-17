@@ -84,3 +84,6 @@ Add contact form on item page
 siuR -- 2018-01-17 13:14:25
 Add filters and restructure items page
 
+siuR -- 2018-01-17 15:21:58
+Finish filter functionality (AJAX, templating, database accessing)
+
