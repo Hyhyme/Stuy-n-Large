@@ -107,10 +107,13 @@ def upload():
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
+
     if logged_in():
         flash('You are already logged in!')
         return redirect('index')
+    
     if request.method == 'POST':
+
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
@@ -129,6 +132,11 @@ def create():
         if not auth.add_user(email, password1, name):
             flash('Email already in use.')
             return redirect('login')
+        
+        terms = request.form.get('terms')
+        if terms == None:
+            flash('Please read and accept the terms of service')
+            return redirect('create')
 
         flash('Welcome ' + fname + '!')
         return redirect('index')
