@@ -2,44 +2,59 @@
 
 {% block content %}
 
+<style>
+  select[multiple] {
+    height: 15rem;
+  }
+</style>
+
 <div class="grid-container">
   <div class="grid-x grid-padding-x">
     <div class="large-12 cell text-center">
       <h1>Stuy is currently selling...</h1>
     </div>
-    <div class="auto cell">
-      <ul class="vertical menu accordion-menu" id="filters" data-accordion-menu>
-        <li>
-          <a id="first">Filters</a>
-          <ul class="vertical menu nested">
-            <li>
-              <a href="#">Item 1</a>
-              <ul class="menu vertical nested">
-                <li><a href="#">Item 1A</a></li>
-                <li><a href="#">Item 1B</a></li>
-              </ul>
-            </li>
-            <li><a href="#" id="last">Item 2</a></li>
-          </ul>
-        </li>
-      </ul>
+    <div class="large-3 cell">
+      <div class="callout">
+        <div class="grid-x grid-padding-x">
+          <div class="auto cell">
+            <a class="button primary" href="{{ url_for('upload') }}">Create Item</a>
+          </div>
+          <div class="shrink cell">
+            <a class="button success" id="refresh" href="#"><i class="fi-refresh"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="callout">
+        <h3>Filters</h3>
+        <fieldset class="fieldset">
+          <legend>Type</legend>
+          <input id="input_selling" type="radio" name="is_selling" checked="checked"><label for="input_selling">Selling</label>
+          <input id="input_buying" type="radio" name="is_selling"><label for="input_buying">Buying</label>
+          </fieldset>
+        <label>Hold CTRL or CMD to select multiple.
+          <select id="select_filters" multiple>
+            <option value="under_5">Under $5</option>
+            <option value="5_10">Between $5 - $9.99</option>
+            <option value="10_15">Between $10 - $14.99</option>
+            <option value="over_15">Over $15</option>
+            <option value="showboat">Showboat</option>
+            <option value="redwing">Redwing</option>
+            <option value="narcho">Narcho</option>
+            <option value="hardball">Hardball</option>
+          </select>
+        </label>
+      </div>
     </div>
-    <div class="shrink cell">
-      <a class="button success" id="refresh" href="#"><i class="fi-refresh"></i></a>
-    </div>
-    <div class="shrink cell">
-      <a class="button primary" href="{{ url_for('upload') }}">Create Item</a>
-    </div>
-  </div>
-  <div class="large-12 cell">
-    <div class="callout">
-      <div class="grid-x grid-padding-x" id="listingCell">
-        {% if not items %}
-        <h4 id="emptyText">There are currently no items available.</h4>
-        {% endif %}
-        {% for item in items %}
+    <div class="large-9 cell">
+      <div class="callout">
+        <div class="grid-x grid-padding-x" id="listingCell">
+          {% if not items %}
+          <h4 id="emptyText">There are currently no items available.</h4>
+          {% endif %}
+          {% for item in items %}
           {% include "item.html" %}
-        {% endfor %}
+          {% endfor %}
+        </div>
       </div>
     </div>
   </div>
@@ -50,4 +65,5 @@
 
 {% block scripts %}
 <script src="{{ url_for('static', filename='js/items.js') }}"></script>
+<script src="{{ url_for('static', filename='js/filters.js') }}"></script>
 {% endblock %}

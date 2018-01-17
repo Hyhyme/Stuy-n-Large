@@ -165,6 +165,17 @@ def send_email():
 
 
 # API routes
+FILTERS = {
+    'under_5': db.get_items_price(0, 4.99)
+}
+
+@app.route('/api/get_items_filters')
+def get_items_filters():
+    filters = request.args.get("filters").split(',')
+    for f in filters:
+        print FILTERS[f]
+    return filters
+
 @app.route('/api/get_items')
 def get_items():
     return json.dumps(db.get_items())

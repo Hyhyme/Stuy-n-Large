@@ -81,3 +81,6 @@ Added to about us, fixed terms of service, worked on database
 siuR -- 2018-01-16 14:57:05
 Add contact form on item page
 
+siuR -- 2018-01-17 13:14:25
+Add filters and restructure items page
+
