@@ -103,3 +103,6 @@ Begin admin management page
 siuR -- 2018-01-18 10:57:44
 Add tables of users and items for admin interface
 
+siuR -- 2018-01-18 13:06:00
+Add remove buttons for items
+

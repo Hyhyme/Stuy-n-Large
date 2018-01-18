@@ -241,5 +241,14 @@ def get_user_admin(u_id):
 def hashed(foo):
     return hashlib.md5(str(foo)).hexdigest()
 
+def remove_item(i_id):
+    db, c = open_db()
+    command = "DELETE FROM Items WHERE item_id = %d" % (i_id)
+    c.execute(command)
+    command = "DELETE FROM Pictures WHERE item_id = %d" % (i_id)
+    c.execute(command)
+    close_db(db)
+
+
 if __name__ == '__main__':
     create_tables()

@@ -46,7 +46,7 @@ def allowed_file(filename):
 @app.route('/index')
 def index():
     if logged_in():
-        return redirect('market')
+        return redirect(url_for('market'))
     return render_template('index.html')
 
 @app.route('/market')
@@ -62,7 +62,7 @@ def market():
 def profile():
     if not logged_in():
         flash('You are not logged in.')
-        return redirect('index')
+        return redirect(url_for('index'))
     user = session['u_id']
     ## make a dict where all Uitems = items where items['u_id'] == session['u_id']
     items = db.get_items()
@@ -82,7 +82,7 @@ def item():
 def upload():
     if not logged_in():
         flash('You are not logged in.')
-        return redirect('index')
+        return redirect(url_for('index'))
     if request.method == 'POST':
 
         is_selling = True if request.form.get('type') == 'sell' else False
@@ -93,17 +93,17 @@ def upload():
 
         if not item or not price or not description:
             flash('You must fill out all fields.')
-            return redirect('upload')
+            return redirect(url_for('upload'))
 
         price = float(price)
 
         if price < 0:
             flash('Price must be greater than $0.')
-            return redirect('upload')
+            return redirect(url_for('upload'))
 
         if price > 9999.99:
             flash('Price must be less than $10,000.')
-            return redirect('upload')
+            return redirect(url_for('upload'))
 
         i_id = db.add_item(item, price, description, is_selling, int(session['u_id']))
 
@@ -112,12 +112,12 @@ def upload():
 
         if not f:
             flash('You must upload a picture.')
-            return redirect('upload')
+            return redirect(url_for('upload'))
 
         for pic in f:
             if not allowed_file(pic.filename):
                 flash('Pictures must be in .jpg or .jpeg format.')
-                return redirect('upload')
+                return redirect(url_for('upload'))
 
         i = 0
         for pic in f:
@@ -129,14 +129,14 @@ def upload():
             db.add_picture(i_id, path.strip('static/'))
             i += 1
 
-        return redirect('profile')
+        return redirect(url_for('profile'))
     return render_template('upload.html')
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
     if logged_in():
         flash('You are already logged in!')
-        return redirect('index')
+        return redirect(url_for('index'))
 
     if request.method == 'POST':
         password1 = request.form.get('password1')
@@ -150,27 +150,27 @@ def create():
         if (password1 == '' or password2 == '' or fname == '' or lname == '' or email == ''):
 
             flash('Please fill in all fields')
-            return redirect('create')
+            return redirect(url_for('create'))
 
         if not password1 == password2:
             flash('Passwords do not match.')
-            return redirect('create')
+            return redirect(url_for('create'))
 
 
         if not email.endswith('@stuy.edu'):
             flash('Email is invalid.')
-            return redirect('create')
+            return redirect(url_for('create'))
 
         if not terms:
             flash('Please read and accept the terms of service')
-            return redirect('create')
+            return redirect(url_for('create'))
 
         if not auth.add_user(email, password1, name):
             flash('Email already in use.')
-            return redirect('login')
+            return redirect(url_for('login'))
 
         flash('Welcome ' + fname + '!')
-        return redirect('index')
+        return redirect(url_for('index'))
 
     return render_template('create.html')
 
@@ -178,15 +178,15 @@ def create():
 def login():
     if logged_in():
         flash('You are already logged in!')
-        return redirect('index')
+        return redirect(url_for('index'))
     if request.method == 'POST':
         email = request.form.get('email')
         if auth.login(email, request.form.get('password')):
             flash('Welcome back, ' + db.get_user_name(email) + '!')
-            return redirect('index')
+            return redirect(url_for('index'))
         else:
             flash('Invalid credentials, please try again.')
-            return redirect('login')
+            return redirect(url_for('login'))
     return render_template('login.html')
 
 @app.route('/logout')
@@ -196,7 +196,7 @@ def logout():
         auth.logout()
     else:
         flash('You are not logged in!')
-    return redirect('index')
+    return redirect(url_for('index'))
 
 @app.route('/send_email', methods=['GET', 'POST'])
 def send_email():
@@ -204,9 +204,13 @@ def send_email():
 
 @app.route('/admin')
 def admin():
-    users = db.get_users()
-    items = db.get_items()
-    return render_template('admin.html', users = users, items = items)
+    if is_admin():
+        users = db.get_users()
+        items = db.get_items()
+        return render_template('admin.html', users = users, items = items)
+    else:
+        flash('You must be an admin to view this page.')
+        return redirect(url_for('index'))
 
 
 # API routes
@@ -246,6 +250,18 @@ def get_item_modal():
     i_id = request.args.get('i_id')
     item = db.get_item(int(i_id))
     return render_template('item_modal.html', item = item)
+
+
+# Non-view routes
+@app.route('/admin/remove_item')
+def remove_item():
+    if is_admin():
+        i_id = request.args.get('i_id')
+        db.remove_item(int(i_id))
+        flash('Item removed.')
+    else:
+        flash('You must be an admin to perform this action.')
+    return redirect(url_for('admin'))
 
 if __name__ == '__main__':
     app.debug = True
