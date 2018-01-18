@@ -31,13 +31,17 @@ def allowed_file(filename):
 @app.route('/index')
 def index():
     if logged_in():
-        items = db.get_items()
-        return render_template('index_logged_in.html', items = items)
+        return redirect('market')
     return render_template('index.html')
 
-@app.route('/filter')
-def filter():
-    return 'hi'
+@app.route('/market')
+def market():
+    items = None
+    if request.args.get('query'):
+        items = db.get_items_search(request.args.get('query'))
+    else:
+        items = db.get_items()
+    return render_template('index_logged_in.html', items = items)
 
 @app.route('/profile')
 def profile():
@@ -128,7 +132,7 @@ def create():
         name = fname + ' ' + lname
         terms = request.form.get('terms')
 
-        if ( password1 == '' or password2 == '' or fname == '' or lname == '' or email == ''):
+        if (password1 == '' or password2 == '' or fname == '' or lname == '' or email == ''):
 
             flash('Please fill in all fields')
             return redirect('create')
@@ -191,13 +195,14 @@ FILTERS = {
     'under_5': db.get_items_price(0, 4.99),
     '5_10': db.get_items_price(5, 9.99),
     '10_15': db.get_items_price(10, 14.99),
-    'over_15': db.get_items_price(15, 9999.99)
+    'over_15': db.get_items_price(15, 9999.99),
+    'book': db.get_items_search('book')
 }
 
 @app.route('/api/get_items_filters')
 def get_items_filters():
     items = {}
-    filters = request.args.get("filters").split(',')
+    filters = request.args.get('filters').split(',')
     if filters == ['']:
         return json.dumps(db.get_items())
     for f in filters:

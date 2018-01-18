@@ -6,6 +6,12 @@
   select[multiple] {
     height: 15rem;
   }
+  .button {
+    margin-bottom: 0;
+  }
+  .input-group-button button {
+    margin-bottom: 1em;
+  }
 </style>
 
 <div class="grid-container">
@@ -25,15 +31,29 @@
         </div>
       </div>
       <div class="callout">
+        <h3>Search</h3>
+        <form name="search">
+          <div class="input-group">
+            <input id="queryInput" type="text" name="query" placeholder="Search...">
+            <div class="input-group-button">
+              <button type="submit" class="button"><i class="fi-magnifying-glass"></i></button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="callout">
         <h3>Filters</h3>
         <label>Hold CTRL or CMD to select multiple.
           <select id="select_filters" multiple>
             <option value="selling">Selling</option>
             <option value="looking_for">Looking for</option>
+            <option disabled="disabled"></option>
             <option value="under_5">Under $5</option>
             <option value="5_10">Between $5 - $9.99</option>
             <option value="10_15">Between $10 - $14.99</option>
             <option value="over_15">Over $15</option>
+            <option disabled="disabled"></option>
+            <option value="book">Books</option>
           </select>
         </label>
       </div>

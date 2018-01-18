@@ -74,8 +74,8 @@ var openItemModal = function(itemId) {
 makeClickable();
 
 var makeSelectable = function() {
-  var select_filter = document.getElementById("select_filters");
-  select_filter.addEventListener("change", function() {
+  var selectFilter = document.getElementById("select_filters");
+  selectFilter.addEventListener("change", function() {
     $.ajax({
       url: '/api/get_items_filters?filters=' + getSelectValues(),
       type: 'GET',

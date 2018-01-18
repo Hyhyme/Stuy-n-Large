@@ -94,3 +94,6 @@ Finish filter functionality (AJAX, templating, database accessing)
 siuR -- 2018-01-17 16:06:26
 Add selling and looking for filters
 
+siuR -- 2018-01-17 19:52:33
+Add search bar to marketplace
+
