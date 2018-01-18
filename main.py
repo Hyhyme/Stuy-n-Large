@@ -4,7 +4,7 @@ import time
 import json
 
 from utils import auth, db
-from utils.auth import logged_in
+from utils.auth import logged_in, is_admin
 
 import os
 
@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.secret_key = 'testing secret key' #os.urandom(32)
 
 app.jinja_env.globals.update(logged_in = logged_in)
+app.jinja_env.globals.update(is_admin = is_admin)
 app.jinja_env.globals.update(username = db.get_username)
 
 def format_currency(value):
@@ -186,6 +187,10 @@ def logout():
 @app.route('/send_email', methods=['GET', 'POST'])
 def send_email():
     return request.form.get("email")
+
+@app.route('/admin')
+def admin():
+    return render_template('admin.html')
 
 
 # API routes

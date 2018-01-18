@@ -22,6 +22,9 @@
           <li><a href="{{ url_for('index') }}">Home</a></li>
           {% if logged_in() %}
           <li><a href="{{ url_for('profile') }}">Profile</a></li>
+          {% if is_admin() %}
+          <li><a href="{{ url_for('admin') }}">Manage</a></li>
+          {% endif %}
           {% endif %}
         </ul>
       </div>

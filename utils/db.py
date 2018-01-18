@@ -218,6 +218,15 @@ def get_user_name(email):
     close_db(db)
     return user[3]
 
+def get_user_admin(u_id):
+    db, c = open_db()
+    command = "SELECT * FROM Users WHERE user_id = %d" % (u_id)
+    user = None
+    for u in c.execute(command):
+        user = u
+    close_db(db)
+    return user[2]
+
 def hashed(foo):
     return hashlib.md5(str(foo)).hexdigest()
 

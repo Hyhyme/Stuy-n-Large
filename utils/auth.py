@@ -4,6 +4,9 @@ import db
 def logged_in():
     return 'u_id' in session
 
+def is_admin():
+    return db.get_user_admin(session['u_id'])
+
 def add_user(email, password, name):
     u_id = db.add_user(email, password, name)
     if u_id != -1:
