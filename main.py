@@ -18,7 +18,21 @@ app.jinja_env.globals.update(username = db.get_username)
 def format_currency(value):
     return "${:,.2f}".format(value)
 
+def format_boolean(value):
+    return False if value == 0 or value == "0" or not value else True
+
+def format_status(value):
+    if value == 0:
+        return 'Pending'
+    elif value == 1:
+        return 'Meeting arranged'
+    elif value == 2:
+        return 'Completed'
+    return ''
+
 app.jinja_env.filters['currency'] = format_currency
+app.jinja_env.filters['boolean'] = format_boolean
+app.jinja_env.filters['status'] = format_status
 
 UPLOAD_FOLDER = 'static/data/img'
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg'])
@@ -190,7 +204,9 @@ def send_email():
 
 @app.route('/admin')
 def admin():
-    return render_template('admin.html')
+    users = db.get_users()
+    items = db.get_items()
+    return render_template('admin.html', users = users, items = items)
 
 
 # API routes

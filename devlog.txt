@@ -100,3 +100,6 @@ Add search bar to marketplace
 siuR -- 2018-01-18 10:26:09
 Begin admin management page
 
+siuR -- 2018-01-18 10:57:44
+Add tables of users and items for admin interface
+

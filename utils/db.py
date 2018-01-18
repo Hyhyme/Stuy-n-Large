@@ -102,6 +102,19 @@ def get_pictures(item_id):
 
     return pictures
 
+def get_users():
+    db, c = open_db()
+    command = "SELECT * FROM Users"
+    d = {}
+    for i in c.execute(command):
+        d[i[0]] = {}
+        d[i[0]]['admin'] = i[2]
+        d[i[0]]['name'] = i[3]
+        d[i[0]]['email'] = i[4]
+    close_db(db)
+
+    return d
+
 def get_items():
     db, c = open_db()
     command = "SELECT * FROM Items"
@@ -169,8 +182,6 @@ def get_items_is_selling(is_selling):
     close_db(db)
 
     return d
-
-
 
 def get_item(item_id):
     db, c = open_db()
