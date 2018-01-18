@@ -214,8 +214,9 @@ def send_email():
 def admin():
     if is_admin():
         users = db.get_users()
-        items = db.get_items()
-        return render_template('admin.html', users = users, items = items)
+        items = db.get_all_items()
+        pictures = db.get_all_pictures()
+        return render_template('admin.html', users = users, items = items, pictures = pictures)
     else:
         flash('You must be an admin to view this page.')
         return redirect(url_for('index'))
@@ -270,6 +271,17 @@ def remove_item():
     else:
         flash('You must be an admin to perform this action.')
     return redirect(url_for('admin'))
+
+@app.route('/admin/remove_picture')
+def remove_picture():
+    if is_admin():
+        p_id = request.args.get('p_id')
+        db.remove_picture(int(p_id))
+        flash('Picture removed.')
+    else:
+        flash('You must be an admin to perform this action.')
+    return redirect(url_for('admin'))
+
 
 if __name__ == '__main__':
     app.debug = True

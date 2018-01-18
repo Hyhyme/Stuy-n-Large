@@ -38,9 +38,9 @@
         </div>
         <div class="tabs-panel" id="panel3">
           <table>
-            <thead><tr><td>User ID</td><td>Name</td><td>Admin</td><td>Email</td><td>Action</td></thead>
-              {% for user in users %}
-              <tr><td>{{ user }}</td><td>{{ users[user].name }}</td><td>{{ users[user].admin | boolean }}</td><td>{{ users[user].email }}</td><td>Button</td>
+            <thead><tr><td>Picture ID</td><td>Item ID</td><td>Action</td></thead>
+              {% for pic in pictures %}
+              <tr><td>{{ pic }}</td><td>{{ pictures[pic].item_id }}</td><td>See Picture</td>
               {% endfor %}
           </table>
         </div>

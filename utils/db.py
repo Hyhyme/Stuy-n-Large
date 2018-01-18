@@ -102,6 +102,18 @@ def get_pictures(item_id):
 
     return pictures
 
+def get_all_pictures():
+    db, c = open_db()
+    command = "SELECT * FROM Pictures"
+    d = {}
+    for i in c.execute(command):
+        d[i[0]] = {}
+        d[i[0]]['item_id'] = i[1]
+        d[i[0]]['path'] = i[2]
+    close_db(db)
+
+    return d
+
 def get_users():
     db, c = open_db()
     command = "SELECT * FROM Users"
@@ -115,7 +127,7 @@ def get_users():
 
     return d
 
-def get_items():
+def get_all_items():
     db, c = open_db()
     command = "SELECT * FROM Items"
     d = {}
@@ -255,7 +267,6 @@ def remove_item(i_id):
     command = "DELETE FROM Pictures WHERE item_id = %d" % (i_id)
     c.execute(command)
     close_db(db)
-
 
 if __name__ == '__main__':
     create_tables()
