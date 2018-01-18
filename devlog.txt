@@ -84,3 +84,6 @@ Add contact form on item page
 siuR -- 2018-01-17 13:14:25
 Add filters and restructure items page
 
+luoE -- 2018-01-17 14:22:33
+Terms of service now works
+
