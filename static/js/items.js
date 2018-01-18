@@ -25,13 +25,12 @@ var refresh = function() {
     type: 'GET',
     success: function(items) {
       items = JSON.parse(items);
-      console.log(items);
       for (item in items) {
         if (document.getElementById(item) == null) {
-          console.log(items[item]);
           addItem(item);
         }
       }
+      setSelectValues([]);
     }
   });
 
@@ -46,7 +45,10 @@ var addItem = function(itemId) {
     success: function(itemTemplate) {
       var listingCell = document.getElementById("listingCell");
       listingCell.innerHTML = itemTemplate + listingCell.innerHTML;
-      document.getElementById("emptyText").remove();
+      var emptyText = document.getElementById("emptyText")
+      if (emptyText != null) {
+        emptyText.remove();
+      }
       makeClickable();
     }
   });
@@ -57,13 +59,67 @@ var openItemModal = function(itemId) {
     url: '/api/get_item_modal?i_id=' + itemId,
     type: 'GET',
     success: function(itemTemplate) {
+      var options = getSelectValues();
       document.getElementsByTagName("body")[0].innerHTML += itemTemplate;
       var itemModal = new Foundation.Reveal($('#item' + itemId));
       itemModal.open();
       $('#item' + itemId).foundation();
       makeClickable();
+      makeSelectable();
+      setSelectValues(options);
     }
   });
 }
 
 makeClickable();
+
+var makeSelectable = function() {
+  var selectFilter = document.getElementById("select_filters");
+  selectFilter.addEventListener("change", function() {
+    $.ajax({
+      url: '/api/get_items_filters?filters=' + getSelectValues(),
+      type: 'GET',
+      success: function(items) {
+        removeItems();
+        items = JSON.parse(items);
+        for (item in items) {
+          addItem(item);
+        }
+      }
+    });
+  });
+}
+
+var getSelectValues = function() {
+  var select = document.getElementById("select_filters");
+
+  var result = [];
+  var options = select && select.options;
+  var opt;
+
+  for (var i=0, iLen=options.length; i<iLen; i++) {
+    opt = options[i];
+
+    if (opt.selected) {
+      result.push(opt.value || opt.text);
+    }
+  }
+  return result;
+}
+
+var setSelectValues = function(selectedOptions) {
+  var select = document.getElementById("select_filters");
+
+  var options = select && select.options;
+  var opt;
+
+  for (var i=0, iLen=options.length; i<iLen; i++) {
+    opt = options[i];
+
+    if (selectedOptions.indexOf(opt.value) != -1) {
+      opt.selected = true;
+    } else {
+      opt.selected = false;
+    }
+  }
+}

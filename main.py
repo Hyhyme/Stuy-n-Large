@@ -4,7 +4,7 @@ import time
 import json
 
 from utils import auth, db
-from utils.auth import logged_in
+from utils.auth import logged_in, is_admin
 
 import os
 
@@ -12,12 +12,27 @@ app = Flask(__name__)
 app.secret_key = 'testing secret key' #os.urandom(32)
 
 app.jinja_env.globals.update(logged_in = logged_in)
+app.jinja_env.globals.update(is_admin = is_admin)
 app.jinja_env.globals.update(username = db.get_username)
 
 def format_currency(value):
     return "${:,.2f}".format(value)
 
+def format_boolean(value):
+    return False if value == 0 or value == "0" or not value else True
+
+def format_status(value):
+    if value == 0:
+        return 'Pending'
+    elif value == 1:
+        return 'Meeting arranged'
+    elif value == 2:
+        return 'Completed'
+    return ''
+
 app.jinja_env.filters['currency'] = format_currency
+app.jinja_env.filters['boolean'] = format_boolean
+app.jinja_env.filters['status'] = format_status
 
 UPLOAD_FOLDER = 'static/data/img'
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg'])
@@ -31,19 +46,23 @@ def allowed_file(filename):
 @app.route('/index')
 def index():
     if logged_in():
-        items = db.get_items()
-        return render_template('index_logged_in.html', items = items)
+        return redirect(url_for('market'))
     return render_template('index.html')
 
-@app.route('/filter')
-def filter():
-    return 'hi'
+@app.route('/market')
+def market():
+    items = None
+    if request.args.get('query'):
+        items = db.get_items_search(request.args.get('query'))
+    else:
+        items = db.get_items()
+    return render_template('index_logged_in.html', items = items)
 
 @app.route('/profile')
 def profile():
     if not logged_in():
         flash('You are not logged in.')
-        return redirect('index')
+        return redirect(url_for('index'))
     user = session['u_id']
     ## make a dict where all Uitems = items where items['u_id'] == session['u_id']
     items = db.get_items()
@@ -61,7 +80,7 @@ def item():
 def upload():
     if not logged_in():
         flash('You are not logged in.')
-        return redirect('index')
+        return redirect(url_for('index'))
     if request.method == 'POST':
 
         is_selling = True if request.form.get('type') == 'sell' else False
@@ -72,9 +91,17 @@ def upload():
 
         if not item or not price or not description:
             flash('You must fill out all fields.')
-            return redirect('upload')
+            return redirect(url_for('upload'))
 
         price = float(price)
+
+        if price < 0:
+            flash('Price must be greater than $0.')
+            return redirect(url_for('upload'))
+
+        if price > 9999.99:
+            flash('Price must be less than $10,000.')
+            return redirect(url_for('upload'))
 
         i_id = db.add_item(item, price, description, is_selling, int(session['u_id']))
 
@@ -83,12 +110,12 @@ def upload():
 
         if not f:
             flash('You must upload a picture.')
-            return redirect('upload')
+            return redirect(url_for('upload'))
 
         for pic in f:
             if not allowed_file(pic.filename):
                 flash('Pictures must be in .jpg or .jpeg format.')
-                return redirect('upload')
+                return redirect(url_for('upload'))
 
         i = 0
         for pic in f:
@@ -100,50 +127,48 @@ def upload():
             db.add_picture(i_id, path.strip('static/'))
             i += 1
 
-        return redirect('profile')
+        return redirect(url_for('profile'))
     return render_template('upload.html')
 
 @app.route('/create', methods=['GET', 'POST'])
 def create():
-
     if logged_in():
         flash('You are already logged in!')
-        return redirect('index')
-    
+        return redirect(url_for('index'))
+
     if request.method == 'POST':
-        
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-        email = request.form.get('email')        
+        email = request.form.get('email')
         fname = request.form.get('fname')
         lname = request.form.get('lname')
         name = fname + ' ' + lname
         terms = request.form.get('terms')
 
-        if ( password1 == '' or password2 == '' or fname == '' or lname == '' or email == ''):
-            
+        if (password1 == '' or password2 == '' or fname == '' or lname == '' or email == ''):
+
             flash('Please fill in all fields')
-            return redirect('create')
-        
+            return redirect(url_for('create'))
+
         if not password1 == password2:
             flash('Passwords do not match.')
-            return redirect('create')
+            return redirect(url_for('create'))
 
 
         if not email.endswith('@stuy.edu'):
             flash('Email is invalid.')
-            return redirect('create')
+            return redirect(url_for('create'))
+
+        if not terms:
+            flash('Please read and accept the terms of service')
+            return redirect(url_for('create'))
 
         if not auth.add_user(email, password1, name):
             flash('Email already in use.')
-            return redirect('login')
-        
-        if terms == None:
-            flash('Please read and accept the terms of service')
-            return redirect('create')
+            return redirect(url_for('login'))
 
         flash('Welcome ' + fname + '!')
-        return redirect('index')
+        return redirect(url_for('index'))
 
     return render_template('create.html')
 
@@ -161,15 +186,15 @@ def delete():
 def login():
     if logged_in():
         flash('You are already logged in!')
-        return redirect('index')
+        return redirect(url_for('index'))
     if request.method == 'POST':
         email = request.form.get('email')
         if auth.login(email, request.form.get('password')):
             flash('Welcome back, ' + db.get_user_name(email) + '!')
-            return redirect('index')
+            return redirect(url_for('index'))
         else:
             flash('Invalid credentials, please try again.')
-            return redirect('login')
+            return redirect(url_for('login'))
     return render_template('login.html')
 
 @app.route('/logout')
@@ -179,24 +204,44 @@ def logout():
         auth.logout()
     else:
         flash('You are not logged in!')
-    return redirect('index')
+    return redirect(url_for('index'))
 
 @app.route('/send_email', methods=['GET', 'POST'])
 def send_email():
     return request.form.get("email")
 
+@app.route('/admin')
+def admin():
+    if is_admin():
+        users = db.get_users()
+        items = db.get_items()
+        return render_template('admin.html', users = users, items = items)
+    else:
+        flash('You must be an admin to view this page.')
+        return redirect(url_for('index'))
+
 
 # API routes
 FILTERS = {
-    'under_5': db.get_items_price(0, 4.99)
+    'selling': db.get_items_is_selling(True),
+    'looking_for': db.get_items_is_selling(False),
+    'under_5': db.get_items_price(0, 4.99),
+    '5_10': db.get_items_price(5, 9.99),
+    '10_15': db.get_items_price(10, 14.99),
+    'over_15': db.get_items_price(15, 9999.99),
+    'book': db.get_items_search('book')
 }
 
 @app.route('/api/get_items_filters')
 def get_items_filters():
-    filters = request.args.get("filters").split(',')
+    items = {}
+    filters = request.args.get('filters').split(',')
+    if filters == ['']:
+        return json.dumps(db.get_items())
     for f in filters:
-        print FILTERS[f]
-    return filters
+        for item in FILTERS[f]:
+            items[item] = FILTERS[f][item]
+    return json.dumps(items)
 
 @app.route('/api/get_items')
 def get_items():
@@ -213,6 +258,18 @@ def get_item_modal():
     i_id = request.args.get('i_id')
     item = db.get_item(int(i_id))
     return render_template('item_modal.html', item = item)
+
+
+# Non-view routes
+@app.route('/admin/remove_item')
+def remove_item():
+    if is_admin():
+        i_id = request.args.get('i_id')
+        db.remove_item(int(i_id))
+        flash('Item removed.')
+    else:
+        flash('You must be an admin to perform this action.')
+    return redirect(url_for('admin'))
 
 if __name__ == '__main__':
     app.debug = True

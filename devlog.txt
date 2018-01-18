@@ -30,6 +30,7 @@ Add prototype filter template
 
 wongA, luoE -- 2018-01-03 2:43:33
 Added add_item(), change_item(), add_picture() to db.py, changed increment_id()
+
 siuR -- 2018-01-03 23:04:47
 Create template for uploading items
 
@@ -86,4 +87,22 @@ Add filters and restructure items page
 
 luoE -- 2018-01-17 14:22:33
 Terms of service now works
+
+siuR -- 2018-01-17 15:21:58
+Finish filter functionality (AJAX, templating, database accessing)
+
+siuR -- 2018-01-17 16:06:26
+Add selling and looking for filters
+
+siuR -- 2018-01-17 19:52:33
+Add search bar to marketplace
+
+siuR -- 2018-01-18 10:26:09
+Begin admin management page
+
+siuR -- 2018-01-18 10:57:44
+Add tables of users and items for admin interface
+
+siuR -- 2018-01-18 13:06:00
+Add remove buttons for items
 

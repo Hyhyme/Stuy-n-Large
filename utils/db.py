@@ -102,6 +102,19 @@ def get_pictures(item_id):
 
     return pictures
 
+def get_users():
+    db, c = open_db()
+    command = "SELECT * FROM Users"
+    d = {}
+    for i in c.execute(command):
+        d[i[0]] = {}
+        d[i[0]]['admin'] = i[2]
+        d[i[0]]['name'] = i[3]
+        d[i[0]]['email'] = i[4]
+    close_db(db)
+
+    return d
+
 def get_items():
     db, c = open_db()
     command = "SELECT * FROM Items"
@@ -119,8 +132,56 @@ def get_items():
 
     return d
 
+def get_items_search(query):
+    db, c = open_db()
+    command = "SELECT * FROM Items WHERE item_name LIKE '%%%s%%'" % (query)
+    d = {}
+    for i in c.execute(command):
+        d[i[0]] = {}
+        d[i[0]]['name'] = i[1]
+        d[i[0]]['price'] = i[2]
+        d[i[0]]['description'] = i[3]
+        d[i[0]]['status'] = i[4]
+        d[i[0]]['is_selling'] = True if i[5] == 1 else False
+        d[i[0]]['user_id'] = i[6]
+        d[i[0]]['images'] = get_pictures(i[0])
+    close_db(db)
+
+    return d
+
 def get_items_price(lower, upper):
-    return 'test'
+    db, c = open_db()
+    command = "SELECT * FROM Items WHERE price >= %f AND price < %f" % (lower, upper)
+    d = {}
+    for i in c.execute(command):
+        d[i[0]] = {}
+        d[i[0]]['name'] = i[1]
+        d[i[0]]['price'] = i[2]
+        d[i[0]]['description'] = i[3]
+        d[i[0]]['status'] = i[4]
+        d[i[0]]['is_selling'] = True if i[5] == 1 else False
+        d[i[0]]['user_id'] = i[6]
+        d[i[0]]['images'] = get_pictures(i[0])
+    close_db(db)
+
+    return d
+
+def get_items_is_selling(is_selling):
+    db, c = open_db()
+    command = "SELECT * FROM Items WHERE is_selling = %d" % (is_selling)
+    d = {}
+    for i in c.execute(command):
+        d[i[0]] = {}
+        d[i[0]]['name'] = i[1]
+        d[i[0]]['price'] = i[2]
+        d[i[0]]['description'] = i[3]
+        d[i[0]]['status'] = i[4]
+        d[i[0]]['is_selling'] = True if i[5] == 1 else False
+        d[i[0]]['user_id'] = i[6]
+        d[i[0]]['images'] = get_pictures(i[0])
+    close_db(db)
+
+    return d
 
 def get_item(item_id):
     db, c = open_db()
@@ -175,8 +236,26 @@ def get_user_name(email):
     close_db(db)
     return user[3]
 
+def get_user_admin(u_id):
+    db, c = open_db()
+    command = "SELECT * FROM Users WHERE user_id = %d" % (u_id)
+    user = None
+    for u in c.execute(command):
+        user = u
+    close_db(db)
+    return user[2]
+
 def hashed(foo):
     return hashlib.md5(str(foo)).hexdigest()
+
+def remove_item(i_id):
+    db, c = open_db()
+    command = "DELETE FROM Items WHERE item_id = %d" % (i_id)
+    c.execute(command)
+    command = "DELETE FROM Pictures WHERE item_id = %d" % (i_id)
+    c.execute(command)
+    close_db(db)
+
 
 if __name__ == '__main__':
     create_tables()
