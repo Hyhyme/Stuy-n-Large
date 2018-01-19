@@ -1,4 +1,5 @@
 from db_ops import *
+from pictures import get_pictures
 
 def get_items_search(query):
     db, c = open_db()

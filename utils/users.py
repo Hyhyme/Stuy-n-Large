@@ -1,4 +1,17 @@
 from db_ops import *
+from items import remove_item
+
+def remove_user(u_id):
+    db, c = open_db()
+    command = "DELETE FROM Users WHERE user_id = %d" % (u_id)
+    c.execute(command)
+    command = "SELECT * FROM Items WHERE user_id = %d" % (u_id)
+    for i in c.execute(command):
+        com = "DELETE FROM Items WHERE item_id = %d" % (i[0])
+        c.execute(com)
+        com = "DELETE FROM Pictures WHERE item_id = %d" % (i[0])
+        c.execute(com)
+    close_db(db)
 
 def auth_user(email, password):
     db, c = open_db()

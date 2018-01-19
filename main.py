@@ -55,7 +55,7 @@ def market():
     if request.args.get('query'):
         items = db.get_items_search(request.args.get('query'))
     else:
-        items = db.get_items()
+        items = db.get_all_items()
     return render_template('index_logged_in.html', items = items)
 
 @app.route('/profile')
@@ -65,7 +65,7 @@ def profile():
         return redirect(url_for('index'))
     user = session['u_id']
     ## make a dict where all Uitems = items where items['u_id'] == session['u_id']
-    items = db.get_items()
+    items = db.get_all_items()
     Uitems = {}
     for i in items:
         if items[i]['user_id'] == user:
@@ -238,7 +238,7 @@ def get_items_filters():
     items = {}
     filters = request.args.get('filters').split(',')
     if filters == ['']:
-        return json.dumps(db.get_items())
+        return json.dumps(db.get_all_items())
     for f in filters:
         for item in FILTERS[f]:
             items[item] = FILTERS[f][item]
@@ -246,7 +246,7 @@ def get_items_filters():
 
 @app.route('/api/get_items')
 def get_items():
-    return json.dumps(db.get_items())
+    return json.dumps(db.get_all_items())
 
 @app.route('/api/get_item_template')
 def get_item_template():
@@ -262,6 +262,16 @@ def get_item_modal():
 
 
 # Non-view routes
+@app.route('/admin/remove_user')
+def remove_user():
+    if is_admin():
+        u_id = request.args.get('u_id')
+        db.remove_user(int(u_id))
+        flash('User removed.')
+    else:
+        flash('You must be an admin to perform this action.')
+    return redirect(url_for('admin'))
+
 @app.route('/admin/remove_item')
 def remove_item():
     if is_admin():

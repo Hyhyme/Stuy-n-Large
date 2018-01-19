@@ -1,4 +1,5 @@
 from db_ops import *
+from pictures import get_pictures
 
 def remove_item(i_id):
     db, c = open_db()

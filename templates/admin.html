@@ -24,7 +24,7 @@
           <table>
             <thead><tr><td>User ID</td><td>Name</td><td>Admin</td><td>Email</td><td>Action</td></thead>
               {% for user in users %}
-              <tr><td>{{ user }}</td><td>{{ users[user].name }}</td><td>{{ users[user].admin | boolean }}</td><td>{{ users[user].email }}</td><td></td>
+              <tr><td>{{ user }}</td><td>{{ users[user].name }}</td><td>{{ users[user].admin | boolean }}</td><td>{{ users[user].email }}</td><td><a class="button" href="{{ url_for('remove_user', u_id = user) }}">Remove</a></td>
               {% endfor %}
           </table>
         </div>
