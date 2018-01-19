@@ -173,14 +173,6 @@ def create():
     return render_template('create.html')
 
 
-@app.route('/delete', methods = ['GET','POST'])
-def delete():
-    if not logged_in():
-        flash('You are not logged in.')
-        return redirect('index')
-    if request.method == 'GET':
-        db.delete_item(request.args.get('itemid'))
-    return redirect('index')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -281,6 +273,15 @@ def remove_item():
     else:
         flash('You must be an admin to perform this action.')
     return redirect(url_for('admin'))
+
+@app.route('/delete', methods = ['GET','POST'])
+def delete_item():
+    if not logged_in():
+        flash('You are not logged in.')
+    elif request.method == 'GET':
+        db.remove_item(int(request.args.get('i_id')))
+    return redirect(url_for('index'))
+
 
 @app.route('/admin/remove_picture')
 def remove_picture():

@@ -14,9 +14,7 @@
       <hr>
       <p>{{ items[item].description }}{{item}}</p>
       <p>{% if items[item]['user_id'] == user %}	
-	<form action="/delete?i_id={{item}}" > 
-	  <input type="submit" value="{{item}}delete"/> 
-	</form>
+	<a class="button" href="/delete?i_id={{item}}"> delete </a> 
 	{% endif %}</p>
 
     </div>
