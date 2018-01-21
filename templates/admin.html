@@ -24,7 +24,7 @@
           <table>
             <thead><tr><td>User ID</td><td>Name</td><td>Admin</td><td>Email</td><td>Action</td></thead>
               {% for user in users %}
-              <tr><td>{{ user }}</td><td>{{ users[user].name }}</td><td>{{ users[user].admin | boolean }}</td><td>{{ users[user].email }}</td><td><a class="button" href="{{ url_for('remove_user', u_id = user) }}">Remove</a></td>
+              <tr><td>{{ user }}</td><td>{{ users[user].name }}</td><td>{{ users[user].admin | boolean }}</td><td>{{ users[user].email }}</td><td>{% if user == me %}{% else %}<a class="button" href="{{ url_for('remove_user', u_id = user) }}">Remove</a>{% endif %}</td>
               {% endfor %}
           </table>
         </div>
@@ -40,7 +40,7 @@
           <table>
             <thead><tr><td>Picture ID</td><td>Item ID</td><td>Action</td></thead>
               {% for pic in pictures %}
-              <tr><td>{{ pic }}</td><td>{{ pictures[pic].item_id }}</td><td>See Picture</td>
+              <tr><td>{{ pic }}</td><td>{{ pictures[pic].item_id }}</td><td><a class="button" href="{{ url_for('remove_picture', p_id = picture) }}">Remove</a></td>
               {% endfor %}
           </table>
         </div>

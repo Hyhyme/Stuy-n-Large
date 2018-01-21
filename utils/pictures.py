@@ -1,5 +1,11 @@
 from db_ops import *
 
+def remove_picture(p_id):
+    db, c = open_db()
+    command = "DELETE FROM Pictures WHERE picture_id = %d" % (p_id)
+    c.execute(command)
+    close_db(db)
+
 def add_picture(item_id, path):
     db, c = open_db()
     p_id = increment_id("Pictures")

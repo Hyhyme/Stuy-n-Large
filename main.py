@@ -205,10 +205,11 @@ def send_email():
 @app.route('/admin')
 def admin():
     if is_admin():
+        me = session['u_id']
         users = db.get_users()
         items = db.get_all_items()
         pictures = db.get_all_pictures()
-        return render_template('admin.html', users = users, items = items, pictures = pictures)
+        return render_template('admin.html', me = me, users = users, items = items, pictures = pictures)
     else:
         flash('You must be an admin to view this page.')
         return redirect(url_for('index'))
