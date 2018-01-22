@@ -109,6 +109,11 @@ Add remove buttons for items
 siuR -- 2018-01-19 14:18:34
 Work on admin interface, Gmail API
 
+korsunM -- 2018-01-19 14:41:37
+Allows users to delete their own items.
+
+wongA -- 2018-01-19 14:42:16
+Completed admin interface, removed ability to delete admin accounts
+
 siuR -- 2018-01-22 13:51:09
 Got Gmail API working and incorporated it into project
-
