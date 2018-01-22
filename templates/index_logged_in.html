@@ -61,14 +61,21 @@
     <div class="large-9 cell">
       <div class="callout">
         <div class="grid-x grid-padding-x" id="listingCell">
-          {% if not items %}
+          {% set u_id = session['u_id'] | int %}
+          {% set num_items = [0] %}
+
+          {% for item in items %}
+          {% if not items[item].user_id == u_id %}
+          {% include "item.html" %}
+          {% if num_items.append(num_items.pop() + 1) %}{% endif %}
+          {% endif %}
+          {% endfor %}
+
+          {% if num_items == [0] %}
           <div class="large-12 cell">
             <h4 id="emptyText">There are currently no items available.</h4>
           </div>
           {% endif %}
-          {% for item in items %}
-          {% include "item.html" %}
-          {% endfor %}
         </div>
       </div>
     </div>

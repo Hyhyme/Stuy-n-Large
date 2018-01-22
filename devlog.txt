@@ -109,3 +109,6 @@ Add remove buttons for items
 siuR -- 2018-01-19 14:18:34
 Work on admin interface, Gmail API
 
+siuR -- 2018-01-22 13:51:09
+Got Gmail API working and incorporated it into project
+

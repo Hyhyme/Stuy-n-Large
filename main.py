@@ -3,8 +3,14 @@ from werkzeug import secure_filename
 import time
 import json
 
-from utils import auth, db
+from utils import auth, db, gmail
 from utils.auth import logged_in, is_admin
+
+import google.oauth2.credentials
+import google_auth_oauthlib.flow
+import googleapiclient.discovery
+from oauth2client.client import AccessTokenCredentials
+from googleapiclient import http
 
 import os
 
@@ -208,7 +214,82 @@ def logout():
 
 @app.route('/send_email', methods=['GET', 'POST'])
 def send_email():
-    return request.form.get("email")
+    seller_email = None
+    email_body = None
+
+    if request.method == 'POST':
+        seller_email = db.get_user_email(int(request.args.get('u_id')))
+        email_body = request.form.get('email')
+    else:
+        seller_email = session['seller_email']
+        email_body = session['email_body']
+
+    if 'credentials' not in session:
+        session['seller_email'] = seller_email
+        session['email_body'] = email_body
+        return redirect(url_for('authorize'))
+
+    # Load credentials from the session.
+    credentials = google.oauth2.credentials.Credentials(
+        **session['credentials']
+    )
+
+    service = googleapiclient.discovery.build('gmail', 'v1', credentials=credentials)
+    message = gmail.create_message("me", seller_email, "Item Inquiry", email_body)
+    gmail.send_message(service, "me", message)
+
+    # Save credentials back to session in case access token was refreshed.
+    # ACTION ITEM: In a production app, you likely want to save these
+    #              credentials in a persistent database instead.
+    session['credentials'] = gmail.credentials_to_dict(credentials)
+
+    flash('Email sent!')
+    return redirect(url_for('index'))
+
+@app.route('/authorize')
+def authorize():
+    # Create flow instance to manage the OAuth 2.0 Authorization Grant Flow steps.
+    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
+        gmail.CLIENT_SECRETS_FILE, scopes=gmail.SCOPES
+    )
+
+    flow.redirect_uri = url_for('oauth2callback', _external=True)
+
+    authorization_url, state = flow.authorization_url(
+        # Enable offline access so that you can refresh an access token without
+        # re-prompting the user for permission. Recommended for web server apps.
+        access_type='offline',
+        # Enable incremental authorization. Recommended as a best practice.
+        include_granted_scopes='true'
+    )
+
+    # Store the state so the callback can verify the auth server response.
+    session['state'] = state
+
+    return redirect(authorization_url)
+
+@app.route('/oauth2callback')
+def oauth2callback():
+    # Specify the state when creating the flow in the callback so that it can
+    # verified in the authorization server response.
+    state = session['state']
+
+    flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
+        gmail.CLIENT_SECRETS_FILE, scopes=gmail.SCOPES, state=state
+    )
+    flow.redirect_uri = url_for('oauth2callback', _external=True)
+
+    # Use the authorization server's response to fetch the OAuth 2.0 tokens.
+    authorization_response = request.url
+    flow.fetch_token(authorization_response=authorization_response)
+
+    # Store credentials in the session.
+    # ACTION ITEM: In a production app, you likely want to save these
+    #              credentials in a persistent database instead.
+    credentials = flow.credentials
+    session['credentials'] = gmail.credentials_to_dict(credentials)
+
+    return redirect(url_for('send_email'))
 
 @app.route('/admin')
 def admin():
@@ -294,5 +375,6 @@ def remove_picture():
 
 
 if __name__ == '__main__':
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
     app.debug = True
     app.run()

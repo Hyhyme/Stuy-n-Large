@@ -15,7 +15,7 @@ def remove_user(u_id):
 
 def auth_user(email, password):
     db, c = open_db()
-    command = "SELECT * FROM Users WHERE email = '%s' AND password = '%s'" % (hashed(email), hashed(password))
+    command = "SELECT * FROM Users WHERE email = '%s' AND password = '%s'" % (email, hashed(password))
     user = None
     for u in c.execute(command): # returns either 1 or 0 entries
         user = u # sets user to the entry if it exists
@@ -45,7 +45,7 @@ def add_user(email, password, name):
 
     u_id = increment_id("Users")
     # admin status is false by default (stored in SQL as 0)
-    command = "INSERT INTO Users VALUES(%d, '%s', 0, '%s', '%s')" % (u_id, hashed(password), name, hashed(email))
+    command = "INSERT INTO Users VALUES(%d, '%s', 0, '%s', '%s')" % (u_id, hashed(password), name, email)
     c.execute(command)
     close_db(db)
 
@@ -75,7 +75,7 @@ def get_username(u_id):
 
 def get_user_id(email):
     db, c = open_db()
-    command = "SELECT * FROM Users WHERE email = '%s'" % (hashed(email))
+    command = "SELECT * FROM Users WHERE email = '%s'" % (email)
     user = None
     for u in c.execute(command):
         user = u
@@ -86,7 +86,7 @@ def get_user_id(email):
     
 def get_user_name(email):
     db, c = open_db()
-    command = "SELECT * FROM Users WHERE email = '%s'" % (hashed(email))
+    command = "SELECT * FROM Users WHERE email = '%s'" % (email)
     user = None
     for u in c.execute(command):
         user = u
@@ -102,3 +102,11 @@ def get_user_admin(u_id):
     close_db(db)
     return user[2]
 
+def get_user_email(u_id):
+    db, c = open_db()
+    command = "SELECT * FROM Users WHERE user_id = %d" % (u_id)
+    user = None
+    for u in c.execute(command):
+        user = u
+    close_db(db)
+    return user[4]

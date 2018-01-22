@@ -75,7 +75,7 @@
             <h3>Contact the {{ is_selling }}</h3>
           </div>
           <div class="large-12 cell">
-            <form method="POST" action="{{ url_for('send_email')}}">
+            <form method="POST" action="{{ url_for('send_email', u_id = item[i_id].user_id) }}">
               <textarea name="email" placeholder="Write your message here"></textarea>
               <input class="button round" type="submit" value="Send">
             </form>
