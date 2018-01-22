@@ -120,3 +120,6 @@ Got Gmail API working and incorporated it into project
 siuR -- 2018-01-22 14:43:24
 Add admin toggling for users in admin interface
 
+korsunM -- 2018-01-22 15:31:13
+put purchase in modal. broken becasue of wierd jinja interaction.
+
