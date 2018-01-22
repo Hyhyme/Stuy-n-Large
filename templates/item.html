@@ -4,7 +4,7 @@
       {{ items[item].name }}
     </div>
     <img src="{{ url_for('static', filename=items[item].images[0][2]) }}" class="clickable">
-    <div class="card-section">
+    <div class="card-section"{% if items[item]['status']==1 %} style="background-color:grey;" {% endif %}>
       <h4>{{ items[item].price | currency }}</h4>
       {% if items[item].is_selling %}
       <p>Seller: {{ username(items[item].user_id) }}</p>
@@ -15,7 +15,11 @@
       <p>{{ items[item].description }}{{item}}</p>
       <p>{% if items[item]['user_id'] == user %}	
 	<a class="button" href="/delete?i_id={{item}}"> delete </a> 
-	{% endif %}</p>
+	{% endif %}
+	{% if items[item]['user_id'] != user and items[item]['status'] == 0 %}
+	<a class="button" href="/change?i_id={{item}}&status=1"> purchase item </a>
+	{% endif %}
+      </p>
 
     </div>
   </div>

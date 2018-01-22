@@ -66,11 +66,16 @@ def profile():
     user = session['u_id']
     ## make a dict where all Uitems = items where items['u_id'] == session['u_id']
     items = db.get_all_items()
-    Uitems = {}
+    Uitems ={}
+    Bitems={}
     for i in items:
         if items[i]['user_id'] == user:
             Uitems[i] = items[i]
-    return render_template("profile.html", items = Uitems, user=user )
+        if (items[i]['user_id']!=user & items[i]['status'] != 0):
+            Bitems[i]=items[i]
+    
+    
+    return render_template("profile.html", Uitems = Uitems, Bitems=Bitems, user=user )
 
 @app.route('/item')
 def item():
@@ -283,6 +288,13 @@ def delete_item():
         db.remove_item(int(request.args.get('i_id')))
     return redirect(url_for('index'))
 
+@app.route('/change', methods = ['GET','POST'])
+def change_item():
+    if not logged_in():
+        flash('You are not logged in.')
+    elif request.method == 'GET':
+        db.change_status(int(request.args.get('i_id')),int(request.args.get('status')))
+    return redirect(url_for('index'))
 
 @app.route('/admin/remove_picture')
 def remove_picture():

@@ -1,11 +1,23 @@
 from db_ops import *
 from pictures import get_pictures
 
+## for status
+##0 = transaction incomplete
+##1= transaction in progress
+##2= transaction complete
+
+
 def remove_item(i_id):
     db, c = open_db()
     command = "DELETE FROM Items WHERE item_id = %d" % (i_id)
     c.execute(command)
     command = "DELETE FROM Pictures WHERE item_id = %d" % (i_id)
+    c.execute(command)
+    close_db(db)
+
+def change_status(i_id,num):
+    db, c = open_db()
+    command = "UPDATE Items SET status = %d WHERE item_id = %d" % (num, i_id)
     c.execute(command)
     close_db(db)
 
@@ -19,7 +31,7 @@ def get_all_items():
         d[i[0]]['price'] = i[2]
         d[i[0]]['description'] = i[3]
         d[i[0]]['status'] = i[4]
-        d[i[0]]['is_selling'] = True if i[5] == 1 else False
+        d[i[0]]['is_selling'] = True if (i[5] ==21) else False
         d[i[0]]['user_id'] = i[6]
         d[i[0]]['images'] = get_pictures(i[0])
     close_db(db)
