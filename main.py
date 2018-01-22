@@ -389,6 +389,14 @@ def change_item():
         db.change_status(int(request.args.get('i_id')),int(request.args.get('status')))
     return redirect(url_for('profile'))
 
+@app.route('/change_pass', methods=["POST"])
+def change_pass():
+    if not logged_in():
+        flash('You are not logged in.')
+    elif request.method == 'POST':
+        db.change_pass(session['u_id'],request.form.get('pass'))
+    return redirect(url_for('profile'))
+
 @app.route('/admin/remove_picture')
 def remove_picture():
     if is_admin():

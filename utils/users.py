@@ -36,6 +36,13 @@ def change_name(u_id, new_name):
     c.execute(command)
     close_db(db)
 
+# allows user to change display name
+def change_pass(u_id, new_pass):
+    db, c = open_db()
+    command = "UPDATE Users SET password = '%s' WHERE user_id = %d" % (hashed(new_pass), u_id)
+    c.execute(command)
+    close_db(db)
+
 # Returns the user id if successful, -1 otherwise
 def add_user(email, password, name):
     db, c = open_db()
