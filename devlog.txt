@@ -123,3 +123,6 @@ Add admin toggling for users in admin interface
 korsunM -- 2018-01-22 15:31:13
 put purchase in modal. broken becasue of wierd jinja interaction.
 
+siuR -- 2018-01-22 17:41:44
+Finish system of marking items as sold or meeting arranged
+

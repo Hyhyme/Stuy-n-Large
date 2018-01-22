@@ -62,7 +62,12 @@ def market():
         items = db.get_items_search(request.args.get('query'))
     else:
         items = db.get_all_items()
-    return render_template('index_logged_in.html', items = items)
+
+    available_items = {}
+    for item in items:
+        if not items[item]['status'] == 1 and not items[item]['status'] == 2:
+            available_items[item] = items[item]
+    return render_template('index_logged_in.html', items = available_items)
 
 @app.route('/profile')
 def profile():
@@ -211,6 +216,10 @@ def logout():
 
 @app.route('/send_email', methods=['GET', 'POST'])
 def send_email():
+    if not logged_in():
+        flash('You are not logged in!')
+        return redirect(url_for('index'))
+
     seller_email = None
     email_body = None
 
@@ -305,6 +314,9 @@ def admin():
 FILTERS = {
     'selling': db.get_items_is_selling(True),
     'looking_for': db.get_items_is_selling(False),
+    'available': db.get_items_status(0),
+    'meeting': db.get_items_status(1),
+    'sold': db.get_items_status(2),
     'under_5': db.get_items_price(0, 4.99),
     '5_10': db.get_items_price(5, 9.99),
     '10_15': db.get_items_price(10, 14.99),
@@ -367,7 +379,7 @@ def delete_item():
         flash('You are not logged in.')
     elif request.method == 'GET':
         db.remove_item(int(request.args.get('i_id')))
-    return redirect(url_for('index'))
+    return redirect(url_for('profile'))
 
 @app.route('/change_item')
 def change_item():
@@ -375,7 +387,7 @@ def change_item():
         flash('You are not logged in.')
     elif request.method == 'GET':
         db.change_status(int(request.args.get('i_id')),int(request.args.get('status')))
-    return redirect(url_for('index'))
+    return redirect(url_for('profile'))
 
 @app.route('/admin/remove_picture')
 def remove_picture():

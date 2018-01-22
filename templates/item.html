@@ -1,10 +1,10 @@
 <div class="medium-4 large-4 cell">
-  <div class="card" id="{{ item }}">
+  <div class="card" id="{{ item }}" {% if items[item]['status'] == 2 %}style="border: 2px solid #870202;"{% elif items[item]['status'] == 1 %}style="border: 2px solid #f4f142;"{% endif %}>
     <div class="card-divider clickable">
       {{ items[item].name }}
     </div>
-    <img src="{{ url_for('static', filename=items[item].images[0][2]) }}" class="clickable">
-    <div class="card-section"{% if items[item]['status']==1 %} style="background-color:grey;" {% endif %}>
+    <img src="{{ url_for('static', filename=items[item].images[0][2]) }}" {% if not items[item]['user_id'] == user %}class="clickable"{% endif %}>
+    <div class="card-section">
       <h4>{{ items[item].price | currency }}</h4>
       {% if items[item].is_selling %}
       <p>Seller: {{ username(items[item].user_id) }}</p>
@@ -12,13 +12,21 @@
       <p>Buyer: {{ username(items[item].user_id) }}</p>
       {% endif %}
       <hr>
-      <p>{{ items[item].description }}{{item}}</p>
-      <p>{% if items[item]['user_id'] == user %}	
-	<a class="button" href="/delete_item?i_id={{item}}"> delete </a> 
-	{% endif %}
-	{% if items[item]['user_id'] != user and items[item]['status'] == 0 %}
-	<a class="button" href="/change_item?i_id={{item}}&status=1"> purchase item </a>
-	{% endif %}
+      <p>{{ items[item].description }}</p>
+      <p>
+        {% if items[item]['user_id'] == user %}
+        <div class="button-group">
+          <a class="button" href="{{ url_for('delete_item', i_id = item) }}">Delete</a>
+          <a class="button" href="{{ url_for('change_item', i_id = item, status = 2) }}">Mark as Sold</a>
+          <a class="dropdown button arrow-only" data-toggle="submenu"></a>
+          <div class="dropdown-pane" id="submenu" data-dropdown>
+            <ul class="menu vertical">
+              <li><a class="button" href="{{ url_for('change_item', i_id = item, status = 1) }}">Mark as Meeting Arranged</a></li>
+              <li><a class="button" href="{{ url_for('change_item', i_id = item, status = 0) }}">Mark as Available</a></li>
+            </ul>
+          </div>
+        </div>
+	      {% endif %}
       </p>
 
     </div>

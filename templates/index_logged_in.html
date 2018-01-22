@@ -23,10 +23,7 @@
       <div class="callout">
         <div class="grid-x grid-padding-x">
           <div class="auto cell">
-            <a class="button primary" href="{{ url_for('upload') }}">Create Item</a>
-          </div>
-          <div class="shrink cell">
-            <a class="button success" id="refresh" href="#"><i class="fi-refresh"></i></a>
+            <a class="button expanded primary" href="{{ url_for('upload') }}">Create Item</a>
           </div>
         </div>
       </div>
@@ -47,6 +44,10 @@
           <select id="select_filters" multiple>
             <option value="selling">Selling</option>
             <option value="looking_for">Looking for</option>
+            <option disabled="disabled"></option>
+            <option value="available">Available</option>
+            <option value="meeting">Meeting</option>
+            <option value="sold">Sold</option>
             <option disabled="disabled"></option>
             <option value="under_5">Under $5</option>
             <option value="5_10">Between $5 - $9.99</option>

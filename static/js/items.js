@@ -16,28 +16,6 @@ var makeClickable = function() {
   }
 }
 
-var refreshButton = document.getElementById("refresh");
-
-var refresh = function() {
-
-  $.ajax({
-    url: '/api/get_items',
-    type: 'GET',
-    success: function(items) {
-      items = JSON.parse(items);
-      for (item in items) {
-        if (document.getElementById(item) == null) {
-          addItem(item);
-        }
-      }
-      setSelectValues([]);
-    }
-  });
-
-}
-
-refreshButton.addEventListener("click", refresh);
-
 var addItem = function(itemId) {
   $.ajax({
     url: '/api/get_item_template?i_id=' + itemId,

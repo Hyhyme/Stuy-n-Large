@@ -52,3 +52,20 @@ def get_items_is_selling(is_selling):
 
     return d
 
+def get_items_status(status):
+    db, c = open_db()
+    command = "SELECT * FROM Items WHERE status = %d" % (status)
+    d = {}
+    for i in c.execute(command):
+        d[i[0]] = {}
+        d[i[0]]['name'] = i[1]
+        d[i[0]]['price'] = i[2]
+        d[i[0]]['description'] = i[3]
+        d[i[0]]['status'] = i[4]
+        d[i[0]]['is_selling'] = True if i[5] == 1 else False
+        d[i[0]]['user_id'] = i[6]
+        d[i[0]]['images'] = get_pictures(i[0])
+    close_db(db)
+
+    return d
+
