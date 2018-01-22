@@ -14,10 +14,10 @@
       <hr>
       <p>{{ items[item].description }}{{item}}</p>
       <p>{% if items[item]['user_id'] == user %}	
-	<a class="button" href="/delete?i_id={{item}}"> delete </a> 
+	<a class="button" href="/delete_item?i_id={{item}}"> delete </a> 
 	{% endif %}
 	{% if items[item]['user_id'] != user and items[item]['status'] == 0 %}
-	<a class="button" href="/change?i_id={{item}}&status=1"> purchase item </a>
+	<a class="button" href="/change_item?i_id={{item}}&status=1"> purchase item </a>
 	{% endif %}
       </p>
 

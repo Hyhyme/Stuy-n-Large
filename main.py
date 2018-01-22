@@ -361,7 +361,7 @@ def remove_item():
         flash('You must be an admin to perform this action.')
     return redirect(url_for('admin'))
 
-@app.route('/delete', methods = ['GET','POST'])
+@app.route('/delete_item')
 def delete_item():
     if not logged_in():
         flash('You are not logged in.')
@@ -369,7 +369,7 @@ def delete_item():
         db.remove_item(int(request.args.get('i_id')))
     return redirect(url_for('index'))
 
-@app.route('/change', methods = ['GET','POST'])
+@app.route('/change_item')
 def change_item():
     if not logged_in():
         flash('You are not logged in.')
@@ -383,6 +383,16 @@ def remove_picture():
         p_id = request.args.get('p_id')
         db.remove_picture(int(p_id))
         flash('Picture removed.')
+    else:
+        flash('You must be an admin to perform this action.')
+    return redirect(url_for('admin'))
+
+@app.route('/admin/toggle_admin')
+def toggle_admin():
+    if is_admin():
+        u_id = int(request.args.get('u_id'))
+        db.set_user_admin(u_id, True if db.get_user_admin(u_id) == 0 else False)
+        flash('Administrative privileges toggled.')
     else:
         flash('You must be an admin to perform this action.')
     return redirect(url_for('admin'))

@@ -3,7 +3,7 @@
 {% block content %}
 
 <style>
-  .button {
+  .button, .button-group {
     margin-bottom: 0;
   }
 </style>
@@ -24,7 +24,13 @@
           <table>
             <thead><tr><td>User ID</td><td>Name</td><td>Admin</td><td>Email</td><td>Action</td></thead>
               {% for user in users %}
-              <tr><td>{{ user }}</td><td>{{ users[user].name }}</td><td>{{ users[user].admin | boolean }}</td><td>{{ users[user].email }}</td><td>{% if user == me %}{% else %}<a class="button" href="{{ url_for('remove_user', u_id = user) }}">Remove</a>{% endif %}</td>
+              <tr><td>{{ user }}</td><td>{{ users[user].name }}</td><td>{{ users[user].admin | boolean }}</td><td>{{ users[user].email }}</td>
+                <td>{% if user == me %}{% else %}
+                  <div class="small button-group">
+                    <a class="button" href="{{ url_for('remove_user', u_id = user) }}">Remove</a>
+                    <a class="button" href="{{ url_for('toggle_admin', u_id = user) }}">Toggle Admin</a>{% endif %}
+                  </div>
+                </td>
               {% endfor %}
           </table>
         </div>

@@ -110,3 +110,10 @@ def get_user_email(u_id):
         user = u
     close_db(db)
     return user[4]
+
+def set_user_admin(u_id, admin):
+    db, c = open_db()
+    admin = 1 if admin else 0
+    command = "UPDATE Users SET admin = %d WHERE user_id = %d" % (admin, u_id)
+    c.execute(command)
+    close_db(db)
