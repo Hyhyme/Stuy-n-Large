@@ -84,8 +84,6 @@ def profile():
             Uitems[i] = items[i]
         if (items[i]['user_id']!=user & items[i]['status'] != 0):
             Bitems[i]=items[i]
-    
-    
     return render_template("profile.html", Uitems = Uitems, Bitems=Bitems, user=user )
 
 @app.route('/item')
@@ -362,6 +360,7 @@ def remove_user():
         flash('User removed.')
     else:
         flash('You must be an admin to perform this action.')
+        return redirect(url_for('index'))
     return redirect(url_for('admin'))
 
 @app.route('/admin/remove_item')
@@ -372,12 +371,14 @@ def remove_item():
         flash('Item removed.')
     else:
         flash('You must be an admin to perform this action.')
+        return redirect(url_for('index'))
     return redirect(url_for('admin'))
 
 @app.route('/delete_item')
 def delete_item():
     if not logged_in():
         flash('You are not logged in.')
+        return redirect(url_for('index'))
     elif request.method == 'GET':
         db.remove_item(int(request.args.get('i_id')))
     return redirect(url_for('profile'))
@@ -386,16 +387,32 @@ def delete_item():
 def change_item():
     if not logged_in():
         flash('You are not logged in.')
+        return redirect(url_for('index'))
     elif request.method == 'GET':
         db.change_status(int(request.args.get('i_id')),int(request.args.get('status')))
     return redirect(url_for('profile'))
 
-@app.route('/change_pass', methods=["POST"])
+@app.route('/change_pass', methods=['GET', 'POST'])
 def change_pass():
     if not logged_in():
         flash('You are not logged in.')
+        return redirect(url_for('index'))
     elif request.method == 'POST':
-        db.change_pass(session['u_id'],request.form.get('pass'))
+        if request.form.get('password1') == request.form.get('password2'):
+            db.change_pass(session['u_id'], request.form.get('password1'))
+            flash('Password changed!')
+        else:
+            flash('Passwords do not match.')
+    return redirect(url_for('profile'))
+
+@app.route('/change_name', methods=['GET', 'POST'])
+def change_name():
+    if not logged_in():
+        flash('You are not logged in.')
+        return redirect(url_for('index'))
+    elif request.method == 'POST':
+        db.change_name(session['u_id'], request.form.get('name'))
+        flash('Name changed!')
     return redirect(url_for('profile'))
 
 @app.route('/admin/remove_picture')
@@ -406,6 +423,7 @@ def remove_picture():
         flash('Picture removed.')
     else:
         flash('You must be an admin to perform this action.')
+        return redirect(url_for('index'))
     return redirect(url_for('admin'))
 
 @app.route('/admin/toggle_admin')
@@ -416,6 +434,7 @@ def toggle_admin():
         flash('Administrative privileges toggled.')
     else:
         flash('You must be an admin to perform this action.')
+        return redirect(url_for('index'))
     return redirect(url_for('admin'))
 
 

@@ -132,3 +132,6 @@ implemented changing password
 siuR -- 2018-01-23 11:41:55
 Remove user items when using market filter
 
+siuR -- 2018-01-23 12:32:56
+Reformat change password form and make a change name form
+
