@@ -144,8 +144,7 @@ def upload():
             timestamp = str(time.time()).replace(".", "_")
             filename = str(session['u_id']) + '_' + timestamp + '_' + str(i) + '.jpg'
 
-            path = app.config['UPLOAD_FOLDER'] +'/'+ filename
-            print path
+            path = app.config['UPLOAD_FOLDER'] + '/' + filename
             pic.save(path)
             db.add_picture(i_id, path.strip('static/'))
             i += 1
