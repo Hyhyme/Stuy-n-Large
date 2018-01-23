@@ -23,7 +23,7 @@ var addItem = function(itemId) {
     success: function(itemTemplate) {
       var listingCell = document.getElementById("listingCell");
       listingCell.innerHTML = itemTemplate + listingCell.innerHTML;
-      var emptyText = document.getElementById("emptyText")
+      var emptyText = document.getElementById("emptyText");
       if (emptyText != null) {
         emptyText.remove();
       }

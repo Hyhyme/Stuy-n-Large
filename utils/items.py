@@ -31,7 +31,7 @@ def get_all_items():
         d[i[0]]['price'] = i[2]
         d[i[0]]['description'] = i[3]
         d[i[0]]['status'] = i[4]
-        d[i[0]]['is_selling'] = True if (i[5] ==21) else False
+        d[i[0]]['is_selling'] = True if (i[5] == 1) else False
         d[i[0]]['user_id'] = i[6]
         d[i[0]]['images'] = get_pictures(i[0])
     close_db(db)

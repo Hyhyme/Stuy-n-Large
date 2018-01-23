@@ -69,3 +69,9 @@ def get_items_status(status):
 
     return d
 
+def remove_user_items(d, u_id):
+    available_items = {}
+    for item in d:
+        if d[item]['user_id'] != u_id:
+            available_items[item] = d[item]
+    return available_items

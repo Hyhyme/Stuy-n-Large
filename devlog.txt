@@ -126,3 +126,6 @@ put purchase in modal. broken becasue of wierd jinja interaction.
 siuR -- 2018-01-22 17:41:44
 Finish system of marking items as sold or meeting arranged
 
+siuR -- 2018-01-23 11:41:55
+Remove user items when using market filter
+

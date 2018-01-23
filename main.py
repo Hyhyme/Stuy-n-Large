@@ -333,6 +333,7 @@ def get_items_filters():
     for f in filters:
         for item in FILTERS[f]:
             items[item] = FILTERS[f][item]
+    items = db.remove_user_items(items, session['u_id'])
     return json.dumps(items)
 
 @app.route('/api/get_items')
