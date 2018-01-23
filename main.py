@@ -125,8 +125,6 @@ def upload():
             flash('Price must be less than $10,000.')
             return redirect(url_for('upload'))
 
-        i_id = db.add_item(item, price, description, is_selling, int(session['u_id']))
-
         # handle uploaded images
         f = request.files.getlist('pictures[]')
 
@@ -140,6 +138,8 @@ def upload():
                 return redirect(url_for('upload'))
 
         i = 0
+        i_id = db.add_item(item, price, description, is_selling, int(session['u_id']))
+
         for pic in f:
             timestamp = str(time.time()).replace(".", "_")
             filename = str(session['u_id']) + '_' + timestamp + '_' + str(i) + '.jpg'
