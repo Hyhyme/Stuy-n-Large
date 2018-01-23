@@ -69,6 +69,10 @@ def market():
             available_items[item] = items[item]
     return render_template('index_logged_in.html', items = available_items)
 
+@app.route('/faq')
+def faq():
+    return render_template('faq.html')
+
 @app.route('/profile')
 def profile():
     if not logged_in():

@@ -138,3 +138,6 @@ Reformat change password form and make a change name form
 siuR -- 2018-01-23 15:56:03
 Implement search for profile page
 
+siuR -- 2018-01-23 16:24:30
+Add FAQ page
+
