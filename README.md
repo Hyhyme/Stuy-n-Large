@@ -28,3 +28,6 @@ $ python main.py
 in a terminal, then go to `localhost:5000` in any browser.
 
 ## Usage
+
+## Notes
+File uploading may not work on all operating systems. It has been tested to work on Ubuntu.
