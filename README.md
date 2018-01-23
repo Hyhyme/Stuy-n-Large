@@ -12,7 +12,7 @@ Simply run
 ```
 python main.py
 ```
-in a terminal.
+in a terminal, then go to 127.0.0.1:5000 in any browser.
 
 ## Libraries
 Stuy n' Buy requires certain python libraries to run, illustrated below:
