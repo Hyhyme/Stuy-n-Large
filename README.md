@@ -7,15 +7,22 @@ Software Development Project 02<br>
 ## Description
 Stuy n' Buy is a web application for members of the Stuyvesant community to buy and sell items they no longer need. Members may put up items for sale with a name, price, description, and picture, or let others know what items they're looking for. Other users may search for items, and contact the seller if they are interested in an item.
 
-## Running
+## Setup
+
+### Dependencies
+Stuy n' Buy requires certain python libraries to run. You can install the libraries using the command below:
+```
+$ pip install --upgrade requests google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
+```
+
+### API Keys
+Place the procured `client_secret.json` file in the root directory of the application.
+
+### Running
 Simply run 
 ```
-python main.py
+$ python main.py
 ```
-in a terminal, then go to 127.0.0.1:5000 in any browser.
+in a terminal, then go to `localhost:5000` in any browser.
 
-## Libraries
-Stuy n' Buy requires certain python libraries to run, illustrated below:
-```
-pip install --upgrade requests google-auth google-auth-oauthlib google-auth-httplib2 google-api-python-client
-```
+## Usage
