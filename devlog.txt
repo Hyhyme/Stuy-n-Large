@@ -135,3 +135,6 @@ Remove user items when using market filter
 siuR -- 2018-01-23 12:32:56
 Reformat change password form and make a change name form
 
+siuR -- 2018-01-23 15:56:03
+Implement search for profile page
+

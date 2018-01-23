@@ -76,7 +76,11 @@ def profile():
         return redirect(url_for('index'))
     user = session['u_id']
     ## make a dict where all Uitems = items where items['u_id'] == session['u_id']
-    items = db.get_all_items()
+    items = None
+    if request.args.get('query'):
+        items = db.get_items_search(request.args.get('query'))
+    else:
+        items = db.get_all_items()
     Uitems ={}
     Bitems={}
     for i in items:
@@ -185,8 +189,6 @@ def create():
         return redirect(url_for('index'))
 
     return render_template('create.html')
-
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
