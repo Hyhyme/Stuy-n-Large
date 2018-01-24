@@ -141,3 +141,6 @@ Implement search for profile page
 siuR -- 2018-01-23 16:24:30
 Add FAQ page
 
+luoE -- 2018-01-23 23:48:22
+updated design doc
+

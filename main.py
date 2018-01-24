@@ -44,6 +44,7 @@ UPLOAD_FOLDER = 'static/data/img'
 ALLOWED_EXTENSIONS = set(['jpg', 'jpeg'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+# images must be jpg or jpeg files, extension is checked
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -63,6 +64,7 @@ def market():
     else:
         items = db.get_all_items()
 
+    # open offers are shown on the market page
     available_items = {}
     for item in items:
         if not items[item]['status'] == 1 and not items[item]['status'] == 2:
@@ -71,6 +73,7 @@ def market():
 
 @app.route('/faq')
 def faq():
+    #displays questions that users might have about the site and answers to them
     return render_template('faq.html')
 
 @app.route('/profile')
@@ -116,7 +119,8 @@ def upload():
             return redirect(url_for('upload'))
 
         price = float(price)
-
+        
+        # sanitizing price inputs
         if price < 0:
             flash('Price must be greater than $0.')
             return redirect(url_for('upload'))
